@@ -29,20 +29,33 @@ var express      = require ('express')
             app.get('/', function(request, response) {
                 sess
                     .run('MATCH (n) RETURN n LIMIT 25') //n = all nodes ; n:Activity = all activities
+
                     // callback function
                     .then( function(result){
+                        var activityArray = [];
                         result.records.forEach(function (record) {
+                            activityArray.push({
+                                id          : record._fields[0].identity.low,
+                                description : record._fields[0].properties.description,
+                                PT          : record._fields[0].properties.PT,
+                                MLT         : record._fields[0].properties.MLT,
+                                OT          : record._fields[0].properties.OT
+                            }); //push
                             console.log('record :');
                             console.log(record._fields[0].properties);
-                        })
-                    })
+                        })//forEach
+
+                        response.render('index', {activities : activityArray});
+
+                    })// then
+
                     .catch(function (error) {
                         console.log('error : ');
                         console.log(error);
-                    });
+                    }); // catch
 
-                console.log(request.session);
-                response.render('index');
+
+
 
             });
 

@@ -9,10 +9,6 @@ block content
                 span.label.label-info {{ Activities.length }}
                 |  activities in your project
         div
-            //h1 nodes in index:
-                ul
-                    each node in nodes
-                        li= JSON.stringify(node._data)
             table
                 tr
                     th
@@ -24,12 +20,13 @@ block content
                     th
                         label(for="PT") Pessimistic
                     th(id="ET") Expected
-                tr
-                    td {{description}}
-                    td {{OT}}
-                    td {{ML}}
-                    td {{PT}}
-                    td {{((OT + (ML * 4) + PT) / 6 )}}
+                each activity in activities
+                    tr
+                        td= activity.description
+                        td= activity.OT
+                        td= activity.MLT
+                        td= activity.PT
+                        td= ((parseFloat(activity.OT )+ parseFloat((activity.MLT * 4)) +parseFloat(activity.PT) ) / 6 ).toFixed(2)
                 tr
                     form(name='Activities', action="/" method="post")
                         td

@@ -1,29 +1,17 @@
 // Dependencies
-var express         = require ('express')
-    , session       = require('express-session')
-    , bodyParser    = require ('body-parser')
-    , multer        = require  ('multer')
-    , upload        = multer()
-    ,   db   = require('seraph')('http://localhost:7474')
-    , model  = require('seraph-model')
-    , neo4j = require('neo4js')
-    , driver  = require('neo4j-driver').v1
-    , apoc   = require('apoc');
+var express      = require ('express')
+    , session    = require ('express-session')
+    , bodyParser = require ('body-parser')
+    , multer     = require ('multer')
+    , upload     = multer()
+    , neo4j      = require('neo4j-driver').v1
+    , driver     = neo4j.driver('bolt://localhost', neo4j.auth.basic('neo4j', '16038943Brookes'))
+    , sess       = driver.session() ;
 
     var app = express();
 
-    module.exports = MyApp = (function () {
-
-    function MyApp(graphDb1) {
-
 //Configuration
 
-        //var graphDb = require('./configs/db');
-        this.graphDb = graphDb1;
-        graphDb = this.graphDb;
-
-//var index = require('./routes/index');
-//app.use('/', index);
         // view engine setup
         app.set('views', 'views');
         app.set('view engine', 'pug');
@@ -32,26 +20,34 @@ var express         = require ('express')
         app.use(express.static('controllers'));
         app.use(bodyParser.urlencoded({extended: true}));
         app.use(bodyParser.json());
-        app.use(session({
-            secret:'secret',
-            resave: false,
-            saveUninitialized : true,
-            cookie:{secure: false}
-        }));
-        var flash = require('./middlewares/flash');
-        app.use(flash);
+
+       // var flash = require('./middlewares/flash');
+        //app.use(flash);
 
 //DATABASE
-        indexPromise = neo4j.index.NodeIndex(graphDb, "Index") ;
 
-        ///////indexPromise.then(function(index) {
             app.get('/', function(request, response) {
+                sess
+                    .run('MATCH (n) RETURN n LIMIT 25') //n = all nodes ; n:Activity = all activities
+                    // callback function
+                    .then( function(result){
+                        result.records.forEach(function (record) {
+                            console.log('record :');
+                            console.log(record._fields[0].properties);
+                        })
+                    })
+                    .catch(function (error) {
+                        console.log('error : ');
+                        console.log(error);
+                    });
+
                 console.log(request.session);
-                /////// return index.query("name:*").then(function(nodes) {
-                    return response.render('index', {nodes: nodes});
-                /////// });
+                response.render('index');
+
             });
-            return app.post('/', function(request, response) {
+
+
+            app.post('/', function(request, response) {
 
                 if (request.body === undefined
                     || request.body.description === ''
@@ -59,37 +55,30 @@ var express         = require ('express')
                     || request.body.MLT === ''
                     || request.body.PT === '')
                 {
-                    request.flash('error', "The form is empty");
+                    //request.flash('error', "The form is empty");
+                    console.log('error', "The form is empty");
 
                 }
                 else {
 
                     var description = request.body.description
-                        , OT = request.body.OT
-                        , MLT = reques.body.MLT
-                        , PT = request.body.PT
-                        , node = graphDb.node({
-                        description: description
-                        , OT: OT
-                        , MLT: MLT
-                        , PT: PT
-                    });
+                        , OT        = request.body.OT
+                        , MLT       = request.body.MLT
+                        , PT        = request.body.PT ;
 
 
-                    ///////return index.index(node, "description", description).then(function () {
-                        request.flash('success', "Activity added");
-                        console.log(request.body);
+                    //todo : add the variables in the database
 
-                        return response.redirect("/");
 
-                   /////// });
+                   // request.flash('success', "Activity added");
+                    console.log("body : ");
+                    console.log(request.body);
+
+                    response.redirect("/");
+
 
                 } //else
             }); //app.post
-        ///////}); //index.Promise
-    }//myApp
-    return MyApp;
-})
 
 
 module.exports = app;

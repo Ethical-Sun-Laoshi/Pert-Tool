@@ -1,0 +1,13 @@
+{
+  "name": "essai",
+  "version": "0.0.1",
+  "dependencies": {
+    "express": "^4.15.4",       // web framework, middleware
+    "neo4j": "^2.0.0-RC2",      // Neo4j driver for Nodejs
+    "neo4j-driver": "^1.4.0",   // connect Neo4j 3.1 and + to Javascript
+    // "neo-excel": "^0.1.3",   // export to excel sheets
+    "seraph": "^0.15.2",        // thin layer between Nodejs and Neo4j
+    "seraph-mode": "^0.10.1",   // model layer for seraph
+    "pug": "^2.0.0-rc.3"        //template for writing HTML
+  }
+}

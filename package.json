@@ -1,0 +1,18 @@
+{
+  "name": "essai",
+  "version": "0.0.1",
+  "dependencies": {
+    "apoc": "^2.1.6",
+    "body-parser": "^1.17.2",
+    "express": "^4.15.4",
+    "express-session": "^1.15.5",
+    "multer": "^1.3.0",
+    "neo4j": "^2.0.0-RC2",
+    "neo4j-driver": "^1.4.0",
+    "neo4js": "^0.0.4",
+    "pug": "^2.0.0-rc.3",
+    "seraph": "^0.15.2",
+    "seraph-model": "^0.10.1"
+
+  }
+}

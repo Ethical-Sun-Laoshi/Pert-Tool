@@ -1,0 +1,40 @@
+expends layout
+
+block content
+    .container
+        // HEADER AND ACTIVITY COUNT
+        .jumbotron.text-center
+            h1
+                | There are
+                span.label.label-info {{ Activities.length }}
+                |  activities in your project
+        div
+            table
+                tr
+                    th
+                        label(for="description") Activity
+                    th
+                        label(for="OT") Optimistic
+                    th
+                        label(for="MLT") Most Likely
+                    th
+                        label(for="PT") Pessimistic
+                    th(id="ET") Expected
+                tr
+                    td {{description}}
+                    td {{OT}}
+                    td {{ML}}
+                    td {{PT}}
+                    td {{((OT + (ML * 4) + PT) / 6 )}}
+                tr
+                    form(name='Activities', action="/" method="post")
+                        td
+                            input(type='text', id='description')
+                        td
+                            input(type='number', id='OT')
+                        td
+                            input(type='number', id='MLT')
+                        td
+                            input(type='number', id='PT')
+                        td
+                            button(type="submit").ui.blue "Add"

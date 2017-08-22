@@ -28,26 +28,29 @@ var express      = require ('express')
 
             app.get('/', function(request, response) {
                 sess
-                    .run('MATCH (n) RETURN n LIMIT 25') //n = all nodes ; n:Activity = all activities
+                    .run('MATCH (n:Activity) RETURN n LIMIT 25') //n = all nodes ; n:Activity = all activities
 
                     // callback function
-                    .then( function(result){
+                    .then( function(result) {
+
                         var activityArray = [];
+
                         result.records.forEach(function (record) {
                             activityArray.push({
-                                id          : record._fields[0].identity.low,
-                                description : record._fields[0].properties.description,
-                                PT          : record._fields[0].properties.PT,
-                                MLT         : record._fields[0].properties.MLT,
-                                OT          : record._fields[0].properties.OT
+                                id: record._fields[0].identity.low,
+                                description: record._fields[0].properties.description,
+                                PT: record._fields[0].properties.PT,
+                                MLT: record._fields[0].properties.MLT,
+                                OT: record._fields[0].properties.OT
                             }); //push
+
                             console.log('record :');
                             console.log(record._fields[0].properties);
-                        })//forEach
+                        });//forEach
 
-                        response.render('index', {activities : activityArray});
+                        response.render('index', {activities: activityArray, activityCount : activityArray.length})
+                    })//then
 
-                    })// then
 
                     .catch(function (error) {
                         console.log('error : ');
@@ -95,3 +98,11 @@ var express      = require ('express')
 
 
 module.exports = app;
+
+/*
+// session  for ...
+sess
+    .run()
+    .then()
+    .catch();
+    */

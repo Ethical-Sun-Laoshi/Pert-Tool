@@ -39,9 +39,11 @@ var express      = require ('express')
                             activityArray.push({
                                 id: record._fields[0].identity.low,
                                 description: record._fields[0].properties.description,
-                                PT: record._fields[0].properties.PT,
-                                MLT: record._fields[0].properties.MLT,
-                                OT: record._fields[0].properties.OT
+                                PT: parseFloat(record._fields[0].properties.PT),
+                                MLT: parseFloat(record._fields[0].properties.MLT),
+                                OT: parseFloat(record._fields[0].properties.OT),
+                                //ET: ((this.PT + (this.MLT * 4) + this.OT)/6)
+                                ET: record._fields[0].properties.ET
                             }); //push
 
                             console.log('record :');
@@ -78,13 +80,23 @@ var express      = require ('express')
                 else {
 
                     var description = request.body.description
-                        , OT        = request.body.OT
-                        , MLT       = request.body.MLT
-                        , PT        = request.body.PT ;
+                        , OT        = parseFloat(request.body.OT)
+                        , MLT       = parseFloat(request.body.MLT)
+                        , PT        = parseFloat(request.body.PT)
+                        , ET        = (OT + (MLT * 4) + PT)/6;
 
 
                     //todo : add the variables in the database
-
+                    // session  for ...
+                    sess
+                        .run('CREATE(n:Activity {description:{description}, PT:{PT}, MLT:{MLT}, OT:{OT}, ET:{ET}}) RETURN n', {description:description, PT:PT, MLT:MLT, OT:OT, ET:ET})
+                        .then(function (result) {
+                            response.redirect('/');
+                            sess.close();
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
 
                    // request.flash('success', "Activity added");
                     console.log("body : ");

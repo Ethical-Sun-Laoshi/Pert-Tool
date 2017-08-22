@@ -26,7 +26,7 @@ block content
                         td= activity.OT
                         td= activity.MLT
                         td= activity.PT
-                        td= ((parseFloat(activity.OT )+ parseFloat((activity.MLT * 4)) +parseFloat(activity.PT) ) / 6 ).toFixed(2)
+                        td= (parseFloat(activity.ET)).toFixed(2)
                 tr
                     form(name='Activities', action="/" method="post")
                         td

@@ -37,13 +37,14 @@ var express      = require ('express')
 
                         result.records.forEach(function (record) {
                             activityArray.push({
-                                id: record._fields[0].identity.low,
-                                description: record._fields[0].properties.description,
-                                PT: parseFloat(record._fields[0].properties.PT),
-                                MLT: parseFloat(record._fields[0].properties.MLT),
-                                OT: parseFloat(record._fields[0].properties.OT),
-                                //ET: ((this.PT + (this.MLT * 4) + this.OT)/6)
-                                ET: record._fields[0].properties.ET
+                                id          : record._fields[0].identity.low
+                                , description : record._fields[0].properties.description
+                                , PT          : parseFloat(record._fields[0].properties.PT)
+                                , MLT         : parseFloat(record._fields[0].properties.MLT)
+                                , OT          : parseFloat(record._fields[0].properties.OT)
+                                , ET          : record._fields[0].properties.ET
+                                , Parent      : record._fields[0].properties.parent
+                                , Child       : record._fields[0].properties.child
                             }); //push
 
                             console.log('record :');
@@ -83,13 +84,18 @@ var express      = require ('express')
                         , OT        = parseFloat(request.body.OT)
                         , MLT       = parseFloat(request.body.MLT)
                         , PT        = parseFloat(request.body.PT)
-                        , ET        = (OT + (MLT * 4) + PT)/6;
+                        , ET        = (OT + (MLT * 4) + PT)/6
+                        , parent   = request.body.parent;
 
 
-                    //todo : add the variables in the database
-                    // session  for ...
+                    // session  for add activity in database
                     sess
-                        .run('CREATE(n:Activity {description:{description}, PT:{PT}, MLT:{MLT}, OT:{OT}, ET:{ET}}) RETURN n', {description:description, PT:PT, MLT:MLT, OT:OT, ET:ET})
+                        .run('MATCH(parent:Activity) WHERE parent.description = {parent}'
+                            +'CREATE (new:Activity {description:{description}, PT:{PT}, MLT:{MLT}, OT:{OT}, ET:{ET}, parent:{parent}}),'
+                            +' (new)-[isChild:DEPENDS_ON]->(parent)'
+                            + '(parent)-[isParent:ENABLE]->(new)'
+                            +'RETURN new, parent, isChild'
+                            , {description:description, PT:PT, MLT:MLT, OT:OT, ET:ET, parent:parent})
                         .then(function (result) {
                             response.redirect('/');
                             sess.close();

@@ -8,8 +8,8 @@ block content
                 | There are
                 span.label.label-info=  activityCount
                 |  activities in your project
-            button.btn.btn-danger
-                a(href='/erase')  Delete all
+            a.btn.btn-primary.btn-danger(href="/erase" role="button") Delete all
+
         div.container
             table.col-md-12.table
                 thead
@@ -34,6 +34,7 @@ block content
                             td
                                 //todo : select(multiple) to enable multiple options
                                 select(name='parent' form='Activities')
+                                    option(value = '')
                                     each activity in activities
                                         option(value=activity.description)= activity.description
                             td
@@ -70,6 +71,3 @@ block content
                                 |  |
                                 a(href='/delete?activity='+activity.description) Delete
                                     // todo : cypher delete
-
-
-

@@ -1,0 +1,18 @@
+extends index
+
+block delete
+    .ui-dialog.ui-corner-all.ui-widget.ui-widget-content.ui-front.ui-dialog-buttons.ui-draggable(tabindex='-1', role='dialog', aria-describedby='dialog-confirm', aria-labelledby='ui-id-1', style='height: auto; width: 400px; top: 73px; left: 85.5px; display: block; z-index: 101;')
+        .ui-dialog-titlebar.ui-corner-all.ui-widget-header.ui-helper-clearfix.ui-draggable-handle
+            span#ui-id-1.ui-dialog-title Delete the activity and all related relations ?
+            button.ui-button.ui-corner-all.ui-widget.ui-button-icon-only.ui-dialog-titlebar-close(type='button', title='Close')
+                span.ui-button-icon.ui-icon.ui-icon-closethick
+                span.ui-button-icon-space
+                | Close
+        #dialog-confirm.ui-dialog-content.ui-widget-content(style='width: auto; min-height: 18px; max-height: none; height: auto;')
+            p
+                span.ui-icon.ui-icon-alert(style='float:left; margin:12px 12px 20px 0;')
+                | These items will be permanently deleted and cannot be recovered. Are you sure?
+        .ui-dialog-buttonpane.ui-widget-content.ui-helper-clearfix
+            .ui-dialog-buttonset
+                button.ui-button.ui-corner-all.ui-widget(type='button' href='/' ) Delete all items
+                button.ui-button.ui-corner-all.ui-widget(type='button' href='/') Cancel

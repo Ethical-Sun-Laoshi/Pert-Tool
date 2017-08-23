@@ -8,6 +8,8 @@ block content
                 | There are
                 span.label.label-info=  activityCount
                 |  activities in your project
+            button.btn.btn-danger
+                a(href='/erase')  Delete all
         div.container
             table.col-md-12.table
                 thead
@@ -61,13 +63,13 @@ block content
                             td= activity.MLT
                             td= activity.PT
                             td= (parseFloat(activity.ET)).toFixed(2)
-                            td= activity.Parent
+                            td= activity.parent
                             td
-                                a(href='/') Edit
+                                a(href='/edit?activity='+activity.description) Edit
                                 // todo: cypher set
                                 |  |
-                                a(href='/') Delete
-                                // todo : cypher delete
+                                a(href='/delete?activity='+activity.description) Delete
+                                    // todo : cypher delete
 
-    if locals.flash && locals.flash.error
-        p=flash.error
+
+

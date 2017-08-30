@@ -14,11 +14,15 @@ block content
             table.col-md-12.table
                 thead
                     tr
-                        th Activity description
-                        th Optimistic Time
-                        th Most Likely Time
-                        th Pessimistic Time
-                        th Depends on
+                        th.col-md-2
+                            label(for="description") Activity
+                        th.col-md-1
+                            label(for="OT") Optimistic Time
+                        th.col-md-1
+                            label(for="MLT") Most Likely Time
+                        th.col-md-1
+                            label(for="PT") Pessimistic Time
+                        th.col-md-2 Depends on
                         th
                 tbody
                     tr
@@ -34,7 +38,7 @@ block content
                             td
                                 //todo : select(multiple) to enable multiple options
                                 select(name='parent' form='Activities')
-                                    option(value = '')
+                                    option(value = 'none') none
                                     each activity in activities
                                         option(value=activity.description)= activity.description
                             td
@@ -43,16 +47,12 @@ block content
                 thead
                     tr
                         th.col-md-1 #ID
-                        th.col-md-2
-                            label(for="description") Activity
-                        th.col-md-1
-                            label(for="OT") Optimistic
-                        th.col-md-1
-                            label(for="MLT") Most Likely
-                        th.col-md-1
-                            label(for="PT") Pessimistic
-                        th.col-md-1(id="ET") Expected
-                        th.col-md-2 Depends on
+                        th Activity description
+                        th Optimistic Time
+                        th Most Likely Time
+                        th Pessimistic Time
+                        th Expected Time
+                        th Depends on
                         th.col-md-2 Options
 
                 tbody
@@ -66,8 +66,54 @@ block content
                             td= (parseFloat(activity.ET)).toFixed(2)
                             td= activity.parent
                             td
-                                a(href='/edit?activity='+activity.description) Edit
-                                // todo: cypher set
+                                //a(href='/edit?activity='+activity.description)
+                                a(href='#editActivity' data-toggle="modal" data-target="#editActivity") Edit
+                                #editActivity.modal.fade(role='dialog')
+                                    .modal-dialog
+                                        .modal-content
+                                            .modal-header
+                                                button.close(type="button" data-dismiss="modal") x
+                                                h4.modal-title Activity edition
+                                            .modal-body
+                                                form(name="Edition" id='Edition' action="/edit?activity="+activity.id method='post')
+                                                    table
+                                                        thead
+                                                            tr
+                                                                th
+                                                                    label(for="actEdit") Activity description
+                                                                th
+                                                                th
+                                                                    label(for='parentEdit') Depends on
+                                                        tbody
+                                                            tr
+                                                                td
+                                                                    input(type="text" placeholder=activity.description name='actEdit' id='actEdit')
+                                                                td
+                                                                td
+                                                                    select(name='parentEdit' form='edition' id='parentEdit')
+                                                                        option(value = 'none') none
+                                                                        each activity in activities
+                                                                            option(value=activity.description)= activity.description
+                                                        thead
+                                                            tr
+                                                                th
+                                                                    label(for='otEdit') Optimistic time
+                                                                th
+                                                                    label(for='mltEdit') Most Likely time
+                                                                th
+                                                                    label(for='ptEdit') Pessimistic time
+                                                        tbody
+                                                            tr
+                                                                td
+                                                                    input(type='number', id='otEdit', name="OT" )
+                                                                td
+                                                                    input(type='number', id='mltEdit', name="MLT")
+                                                                td
+                                                                    input(type='number', id='ptEdit', name="PT")
+
+                                            .modal-footer
+                                                button.btn.btn-danger(type="button" data-dismiss="modal") Cancel
+                                                button.btn.btn-success(type="submit" data-dismiss="modal") Edit
+
                                 |  |
-                                a(href='/delete?activity='+activity.description) Delete
-                                    // todo : cypher delete
+                                a(href='/delete?activity='+activity.id) Delete

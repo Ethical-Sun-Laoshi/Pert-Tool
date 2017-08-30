@@ -16,3 +16,23 @@ block delete
             .ui-dialog-buttonset
                 button.ui-button.ui-corner-all.ui-widget(type='button' href='/' ) Delete all items
                 button.ui-button.ui-corner-all.ui-widget(type='button' href='/') Cancel
+
+
+
+
+                a(href='/delete?activity=' + activity.description data-toggle="modal" data-target="#deleteActivity") Delete
+                    #deleteActivity.modal.fade(role='dialog')
+                        .modal-dialog
+                            .modal-content
+                                form(action="/delete?activity=" + activity.description method="get")
+                                    .modal-header
+                                        button.close(type="button" data-dismiss="modal") x
+                                        h4.modal-title Delete Activity
+                                    .modal-body
+                                        p This action will definitely delete the activity named
+                                        p=activity.description
+                                        | and all associated relations.
+                                        p Do you want to execute this action
+                                    .modal-footer
+                                        button.btn.btn-secondary(type="button" data-dismiss="modal") Cancel
+                                        button.btn.btn-danger(type="submit" data-dismiss="modal") Delete

@@ -1,35 +1,30 @@
-var router = require('express').Router();
+var express = require('express'),
+    router = express.Router();
 
 neo4j  = require('neo4j-driver').v1;
 driver = neo4j.driver('bolt://localhost', neo4j.auth.basic('neo4j', '16038943Brookes'));
 sess   = driver.session();
 
-var activityArray = [];
+//DELETE ALL THE PROJECT
+router.get('/erase', function(request, response, next) {
 
-module.exports = delete_all = function () {
-
-    router.get('/eraseproject', function(request, response) { //todo : url not modified
-
-        sess
-            .run('MATCH (n) DETACH DELETE n')
+    sess
+        .run('MATCH (n) DETACH DELETE n')
 
 
-            .then( function(result) {
-                //var empty = [];
-                //activityArray = empty;
+        .then( function(result) {
 
-                activityArray = [];
+            request.session.activityArray = [];
+            console.log('Project erased. New project ... ');
+            response.redirect('/');
 
-                response.redirect('/');
-                //response.render('index', {activities: activityArray, activityCount : activityArray.length})
-            })
+        })
 
 
-            .catch(function (error) {
-                console.log(error);
-            });
+        .catch(function (error) {
+            console.log(error);
+        });
 
-    });//app.get DELETION
-};
+});//app.get DELETION
 
-module.exports = router;
+module.exports = router ;

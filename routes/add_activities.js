@@ -1,124 +1,83 @@
-var router = require('express').Router();
+var express = require('express'),
+    router = express.Router();
 
 neo4j  = require('neo4j-driver').v1,
-driver = neo4j.driver('bolt://localhost', neo4j.auth.basic('neo4j', '16038943Brookes')),
-sess   = driver.session();
+    driver = neo4j.driver('bolt://localhost', neo4j.auth.basic('neo4j', '16038943Brookes')),
+    sess   = driver.session();
 
-var activityArray = [];
+// todo : "parent" and "nino" become collections (cypher: []) to store multiple data
+// ADD ACTIVITIES
+router.post('/add', function(request, response) {
 
+    if (request.body === undefined
+        || request.body.description === ''
+        || request.body.OT === ''
+        || request.body.MLT === ''
+        || request.body.PT === '')
+    {
+        //request.flash('error', "The form is empty");
+        console.log('error', "The form is empty");
 
-// ADD ACTIVITY #1
-module.exports = activity_one = function () {
+    }
+    else {
 
-    router.post('/', function(request, response) {
+        var description = request.body.description
+            , OT        = parseFloat(request.body.OT)
+            , MLT       = parseFloat(request.body.MLT)
+            , PT        = parseFloat(request.body.PT)
+            , ET        = (OT + (MLT * 4) + PT)/6
+            , parent    = request.body.parent
+            , nino = '';
 
-        if (request.body === undefined
-            || request.body.description === ''
-            || request.body.OT === ''
-            || request.body.MLT === ''
-            || request.body.PT === '')
-        {
-            //request.flash('error', "The form is empty");
-            console.log('error', "The form is empty");
+        if (request.session.activityArray.length === 0 || request.body.parent === 'none'){ //ADD ACTIVITY #1 || if there is no parent
 
-        }
-        else {
-
-            var description = request.body.description
-                , OT        = parseFloat(request.body.OT)
-                , MLT       = parseFloat(request.body.MLT)
-                , PT        = parseFloat(request.body.PT)
-                , ET        = (OT + (MLT * 4) + PT)/6
-                , parent    = ""
-                , nino      = "";
-
-
-            // session adding activity in database
             sess
-                .run('CREATE (new:Activity {description:{description}, PT:{PT}, MLT:{MLT}, OT:{OT}, ET:{ET}, parent:{parent}, Nino:{nino}})'
-                    + 'RETURN new'
-                    , {description:description, PT:PT, MLT:MLT, OT:OT, ET:ET, parent:parent, nino:nino})
+                .run('CREATE (new:Activity {description:{description}, PT:{PT}, MLT:{MLT}, OT:{OT}, ET:{ET}, parent:{parent}, nino:{nino}})'
+                    +'RETURN new'
+                    , {description:description, PT:PT, MLT:MLT, OT:OT, ET:ET, parent:'', nino:nino})
 
+        }//if
 
-                .then(function (result) {
-                    response.redirect('/');
-                    sess.close();
-                })
-
-
-                .catch(function (error) {
-                    console.log(error);
-                });
-
-            // request.flash('success', "Activity added");
-            console.log("body : ");
-            console.log(request.body);
-            console.log('success, activity added');
-
-            response.redirect("/");
-
-        } //else
-    }); //app.post CREATION
-
-};
-
-// ADD ACTIVITY #2 and +
-module.exports = add_activity = function() {
-
-    router.post('/', function(request, response) {
-
-        if (request.body === undefined
-            || request.body.description === ''
-            || request.body.OT === ''
-            || request.body.MLT === ''
-            || request.body.PT === '')
-        {
-            //request.flash('error', "The form is empty");
-            console.log('error', "The form is empty");
-
-        }
-        else {
-
-            var description = request.body.description
-                , OT        = parseFloat(request.body.OT)
-                , MLT       = parseFloat(request.body.MLT)
-                , PT        = parseFloat(request.body.PT)
-                , ET        = (OT + (MLT * 4) + PT)/6
-                , parent
-                , nino ='';
-
-            if (request.body.parent === ''){
-                parent   = '';
-            }else if (request.body.parent){
-                parent = request.body.parent;
-            };
-
-
-            // session  for add activity in database
+        else{ // ADD ACTIVITY #2 and + || or the ones with parents
             sess
                 .run('MATCH(parent:Activity) WHERE parent.description = {parent} SET parent.nino = {description}'
-                    +'CREATE (new:Activity {description:{description}, PT:{PT}, MLT:{MLT}, OT:{OT}, ET:{ET}, parent:{parent}, Nino:{nino}}),'
+                    +'CREATE (new:Activity {description:{description}, PT:{PT}, MLT:{MLT}, OT:{OT}, ET:{ET}, parent:{parent}, nino:{nino}}),'
                     +'(new)-[isChild:DEPENDS_ON]->(parent),'
                     +'(parent)-[isParent:ENABLES]->(new)'
                     +'RETURN new, parent, isChild'
                     , {description:description, PT:PT, MLT:MLT, OT:OT, ET:ET, parent:parent, nino:nino})
-                .then(function (result) {
-                    response.redirect('/');
-                    sess.close();
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
+        } // else activity #2
 
-            // request.flash('success', "Activity added");
-            console.log("body : ");
-            console.log(request.body);
-            console.log('success, activity added');
+        sess.then( function (result) {
 
-            response.redirect("/");
+            result.records.forEach(function (record) {
+                request.session.activityArray.push({
+                    id: record._fields[0].identity.low
+                    , description: record._fields[0].properties.description
+                    , PT: parseFloat(record._fields[0].properties.PT)
+                    , MLT: parseFloat(record._fields[0].properties.MLT)
+                    , OT: parseFloat(record._fields[0].properties.OT)
+                    , ET: record._fields[0].properties.ET
+                    , parent: record._fields[0].properties.parent
+                    , nino: record._fields[0].properties.nino
+                }); //push
 
-        } //else
-    }); //app.post CREATION
-};
+            });//forEach
 
-module.exports = router;
+            response.redirect('/');
+            sess.close();
+        })
+            .catch(function (error) {
+                console.log(error);
+            });
+// request.flash('success', "Activity added");
+        console.log("body : ");
+        console.log(request.body);
+        console.log('success, activity added');
+
+//response.redirect("/");
+
+    } //else
+}); //app.post CREATION
+
+module.exports = router ;

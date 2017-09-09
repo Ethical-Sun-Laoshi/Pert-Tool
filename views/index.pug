@@ -1,125 +1,31 @@
 extends layout
 
 block content
+    nav.navbar.navbar-inverse
+        .container-fluid
+            .navbar-header
+                a.navbar-brand(href='/') Planning Tool
+            ul.nav.navbar-nav
+                li.active
+                    a(href='/') Home
+
+            ul.nav.navbar-nav.navbar-right
+                case authenticated
+                    when true
+                        li
+                            a(href='/logout')
+                                span.glyphicon.glyphicon-log-out
+                                |  Log out
+                    when false
+                        li
+                            a(href='/')
+                                span.glyphicon.glyphicon-user
+                                |  Sign Up
+                        li
+                            a(href='/')
+                                span.glyphicon.glyphicon-log-in
+                                |  Login
     .main.container
-        // HEADER AND ACTIVITY COUNT
-        .jumbotron.text-center
-            case activityCount
-                when 0: h1 Your project is empty !
-                        h1 Add a new activity !
-                when 1: h1 There is
-                    span.label.label-info 1
-                    |  activity in your project
-                default: h1 There are
-                    span.label.label-info=activityCount
-                    | activities in your project
-
-            a.btn.btn-primary.btn-danger(href="/erase" role="button") Delete all
-
-        div.container
-            table.col-md-12.table
-                thead
-                    tr
-                        th.col-md-2
-                            label(for="description") Activity
-                        th.col-md-1
-                            label(for="OT") Optimistic Time
-                        th.col-md-1
-                            label(for="MLT") Most Likely Time
-                        th.col-md-1
-                            label(for="PT") Pessimistic Time
-                        th.col-md-2 Depends on
-                        th
-                tbody
-                    tr
-                        form(name='Activities', id='Activities', action="/add" method="post")
-                            td
-                                input(type='text', id='description', name="description" )
-                            td
-                                input(type='number', id='OT', name="OT" )
-                            td
-                                input(type='number', id='MLT', name="MLT")
-                            td
-                                input(type='number', id='PT', name="PT")
-                            td
-                                //todo : select(multiple) to enable multiple options (cypher : collection [])
-                                select(name='parent' form='Activities')
-                                    option(value = 'none') none
-                                    each activity in activities
-                                        option(value=activity.description)= activity.description
-                            td
-                                button(type="submit").ui.blue "Add"
-            table.col-md-12.table.table-striped.table-hover
-                thead
-                    tr
-                        th.col-md-1 #ID
-                        th Activity description
-                        th Optimistic Time
-                        th Most Likely Time
-                        th Pessimistic Time
-                        th Expected Time
-                        th Depends on
-                        th.col-md-2 Options
-
-                tbody
-                    each activity in activities
-                        tr
-                            td(scope='row')= activity.id
-                            td= activity.description
-                            td= activity.OT
-                            td= activity.MLT
-                            td= activity.PT
-                            td= (parseFloat(activity.ET)).toFixed(2)
-                            td= activity.parent
-                            td
-                                //href='/edit?activity='+activity.id
-                                a( data-toggle="modal" data-target="#editActivity") Edit
-                                #editActivity.modal.fade(role='dialog')
-                                    .modal-dialog
-                                        form(name="Edition" id='Edition' action="/edit?activity="+activity.id method='post')
-                                            .modal-content
-                                                .modal-header
-                                                    button.close(type="button" data-dismiss="modal") x
-                                                    h4.modal-title Activity edition
-                                                .modal-body
-                                                        table
-                                                            thead
-                                                                tr
-                                                                    th
-                                                                        label(for="actEdit") Activity description
-                                                                    th
-                                                                    th
-                                                                        label(for='parentEdit') Depends on
-                                                            tbody
-                                                                tr
-                                                                    td
-                                                                        input(type="text" placeholder=activity.description name='actEdit' id='actEdit')
-                                                                    td
-                                                                    td
-                                                                        //todo : select(multiple) to enable multiple options (cypher : collection [])
-                                                                        select(name='parentEdit' form='edition' id='parentEdit')
-                                                                            option(value = 'none') none
-                                                                            each activity in activities
-                                                                                option(value=activity.description)= activity.description
-                                                            thead
-                                                                tr
-                                                                    th
-                                                                        label(for='otEdit') Optimistic time
-                                                                    th
-                                                                        label(for='mltEdit') Most Likely time
-                                                                    th
-                                                                        label(for='ptEdit') Pessimistic time
-                                                            tbody
-                                                                tr
-                                                                    td
-                                                                        input(type='number', id='otEdit', name="otEdit" )
-                                                                    td
-                                                                        input(type='number', id='mltEdit', name="mltEdit")
-                                                                    td
-                                                                        input(type='number', id='ptEdit', name="ptEdit")
-                                                .modal-footer
-                                                    button.btn.btn-danger(type="button" data-dismiss="modal") Cancel
-                                                    button.btn.btn-success(type="submit" ) Edit
-
-                                |  |
-                                a(href='/delete?activity='+activity.id) Delete
+        case authenticated
+            when true: include projects/project_list
+            when false: include user/sign

@@ -1,0 +1,80 @@
+// HEADER AND ACTIVITY COUNT
+.jumbotron.text-center
+    h1 Welcome #{user}
+    h2 The current project is #{project}
+    case activityCount
+        when 0: h2 Your project is empty !
+            | Add a new activity !
+        when 1: h2 There is
+            span.label.label-info 1
+            |  activity in your project
+        default: h2 There are
+            span.label.label-info=activityCount
+            | activities in your project
+
+    a.btn.btn-primary.btn-danger(href="/erase" role="button") Delete all
+
+// BODY
+div.container
+    table.col-md-12.table
+        thead
+            tr
+                th.col-md-2
+                    label(for="description") Activity
+                th.col-md-1
+                    label(for="OT") Optimistic Time
+                th.col-md-1
+                    label(for="MLT") Most Likely Time
+                th.col-md-1
+                    label(for="PT") Pessimistic Time
+                th.col-md-2 Depends on
+                th
+        tbody
+            tr
+                form(name='Activities', id='Activities', action="/add" method="post")
+                    td
+                        input(type='text', id='description', name="description" )
+                    td
+                        input(type='number', id='OT', name="OT" )
+                    td
+                        input(type='number', id='MLT', name="MLT")
+                    td
+                        input(type='number', id='PT', name="PT")
+                    td
+                        //todo : select(multiple) to enable multiple options (cypher : collection [])
+                        select(name='parent' form='Activities')
+                            option(value = 'none') none
+                            each activity in activities
+                                option(value=activity.description)= activity.description
+                    td
+                        button(type="submit").ui.blue "Add"
+    table.col-md-12.table.table-striped.table-hover
+        thead
+            tr
+                th.col-md-1 #ID
+                th Activity description
+                th Optimistic Time
+                th Most Likely Time
+                th Pessimistic Time
+                th Expected Time
+                th Depends on
+                th.col-md-2 Options
+
+        tbody
+            each activity in activities
+                tr
+                    td(scope='row')= activity.id
+                    td= activity.description
+                    td= activity.OT
+                    td= activity.MLT
+                    td= activity.PT
+                    td= (parseFloat(activity.ET)).toFixed(2)
+                    td= activity.parent
+                    td
+                        //href='/edit?activity='+activity.id
+                        a( data-toggle="modal" data-target="#editActivity") Edit
+                        include edit.pug
+                        |  |
+                        a( data-toggle="modal" data-target="#deleteActivity") Delete
+                        include delete.pug
+

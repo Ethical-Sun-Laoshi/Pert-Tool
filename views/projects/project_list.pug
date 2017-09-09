@@ -1,0 +1,44 @@
+// HEADER AND ACTIVITY COUNT
+.jumbotron.text-center
+    h1 Welcome #{user}
+    case projectCount
+        when 0: h2 You have no project.
+            | Start a project !
+        when 1: h2 There is
+            span.label.label-info 1
+            | project
+        default: h2 There are
+            span.label.label-info=activityCount
+            | projects
+
+// BODY
+div.container
+    table.col-md-12.table
+        thead
+            tr
+                th.col-md-2
+                    label(for="projectName") Project
+                th
+        tbody
+            tr
+                form(name='Project', id='Project', action="/create" method="post")
+                    td
+                        input(type='text' id="projectName" name="projectName" )
+                    td
+                        button(type="submit").ui.blue "Create"
+    table.col-md-12.table.table-striped.table-hover
+        thead
+            tr
+                th.col-md-2 Project
+                th.col-md-2 Activities
+                th.col-md-2 Options
+
+        tbody
+            each project in projects
+                tr
+                    td= project.name
+                    td= project.activitycount
+                    td
+                        a(type='button' href='/edit/project/'+ project.id ) Edit
+                            |  |
+                        a(type='button' href='/delete/project/' + project.id) Delete

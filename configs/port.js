@@ -6,7 +6,7 @@ var app     = require('../server')
 
     // get port from environment and store it in Express
     var port = 1407;
-    app.set('port', port);
+   // ******** app.set('port', port);
     // HTTP server
     var server = http.createServer(app);
     //Listen on provided port, on all network interfaces.
@@ -14,8 +14,6 @@ var app     = require('../server')
     server.on('error', onError);
     server.on('listening', onListening);
     console.log("App listening on port " + port);
-    console.log(onError);
-    console.log(onListening);
 
 
 

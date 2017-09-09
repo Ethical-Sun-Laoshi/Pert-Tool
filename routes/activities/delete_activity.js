@@ -3,15 +3,15 @@ var express = require('express'),
 
 neo4j  = require('neo4j-driver').v1;
 driver = neo4j.driver('bolt://localhost', neo4j.auth.basic('neo4j', '16038943Brookes'));
-sess   = driver.session();
+neo4j_session   = driver.session();
 
 // DELETE ONE ACTIVITY
-router.get('/delete', function(request, response) { //todo : url not modified
+router.get('/delete', function(request, response) {
 
     var id = neo4j.int(request.query.activity);
     console.log('the activity selected is the ' +id );
 
-    sess
+    neo4j_session
         .run('MATCH (activity:Activity)'
             +'WHERE ID(activity)={id}'
             +'OPTIONAL MATCH (activity)-[relations]-()'
@@ -47,12 +47,9 @@ router.get('/delete', function(request, response) { //todo : url not modified
             console.log('array : ' + request.session.activityArray);
 */
             response.redirect('/');
-        })//then
-
-
-        .catch(function (error) {
+        }, function (error) {
             console.log(error);
-        });
+        }); // then
 
 });//app.get DELETION
 

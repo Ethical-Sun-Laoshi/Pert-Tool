@@ -1,14 +1,12 @@
 // Dependencies
-var express      = require ('express')
-    , session    = require ('express-session')
-    , bodyParser = require ('body-parser')
+var express         = require ('express')
+    , xsession      = require ('express-session')
+    , xvalidator    = require('express-validator')
+    , bodyParser    = require ('body-parser')
+    , morgan        = require('morgan')
+    , jwt           = require('jsonwebtoken');
     // , multer     = require ('multer')
     // , upload     = multer()
-    , neo4j  = require('neo4j-driver').v1
-    , driver = neo4j.driver('bolt://localhost', neo4j.auth.basic('neo4j', '16038943Brookes'))
-    , sess   = driver.session();
-
-
 
 
 //Configuration
@@ -21,51 +19,91 @@ app.set('view engine', 'pug');
 // MIDDLEWARES
 app.use(express.static('/public'));
 app.use(express.static('controllers'));
+// Thanks to body parser, we can get information from POST and URL parameters
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
+app.use(xvalidator());
+// Thanks to morgan, the requests will be logged to the console
+app.use(morgan('dev'));
 
 // var flash = require('./middlewares/flash');
 //app.use(flash);
 
 /* Use of session */
-app.use(session({secret: 'mysecret', resave: false, saveUninitialized: true}))
+app.use(xsession({secret: 'mysecret', resave: false, saveUninitialized: true}))
 
 //DATABASE becomes ARRAY (web visualisation)
 /* If there is no activity list, we create an empty one */
-    .use(function(request, response, next){
+app.use(function(request, response, next){
+
+
         if (typeof(request.session.activityArray) == 'undefined') {
             request.session.activityArray = [];
-            console.log('first : ' + request.session.activityArray.length)
+            console.log('initialisation... activity count: ' + request.session.activityArray.length)
         }
         next();
-    });
+    })
+
+/* If there is no activity list, we create an empty one */
+.use(function(request, response, next){
+    if (typeof(userArray) == 'undefined') {
+        userArray = [];
+        console.log('initialisation... user count : ' + userArray.length)
+    }
+    next();
+});
 
 
 //GET INDEX
 var index = require('./routes/index');
-app.use('/', index);
+app.use(index);
+
+//LOGIN
+var login = require('./routes/users/login');
+app.use(login);
+
+//REGISTER
+var register = require('./routes/users/register');
+app.use(register);
+
+//LOGGED IN
+var connected = require('./routes/connected');
+app.use(connected);
+
+//LOGOUT
+var logout = require('./routes/users/logout');
+app.use(logout);
+
+//CREATE PROJECT
+var new_project = require('./routes/projects/create_project');
+app.use(new_project);
+
+//EDIT PROJECT
+var edit_project = require('./routes/projects/edit_project');
+app.use(edit_project);
+
+//DELETE PROJECT
+var delete_project = require('./routes/projects/delete_project');
+app.use(delete_project);
 
 // ADD ACTIVITIES
-var add_activities = require('./routes/add_activities');
-app.use('/add', add_activities);
+var add_activities = require('./routes/activities/add_activity');
+app.use(add_activities);
 
 // EDIT ONE ACTIVITY
-var edit = require('./routes/edit');
-app.use('/edit', edit);
+var edit = require('./routes/activities/edit');
+app.use(edit);
 
 // DELETE ONE ACTIVITY
-var delete_item = require('./routes/delete_item');
-app.use('/delete', delete_item);
+var delete_item = require('./routes/activities/delete_activity');
+app.use(delete_item);
 
-//DELETE ALL THE PROJECT
-var erase = require('./routes/delete_all');
-app.use('/erase', erase);
 
 module.exports = app;
 
 /*
 // session  for ...
-sess
+neo4j_session
     .run()
     .then()
     .catch();

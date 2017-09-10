@@ -6,8 +6,13 @@ block content
             .navbar-header
                 a.navbar-brand(href='/') Planning Tool
             ul.nav.navbar-nav
-                li.active
-                    a(href='/') Home
+                case authenticated
+                    when true
+                        li.active
+                            a(href='/'+user+'/dashboard') Home
+                    when false
+                        li.active
+                            a(href='/') Home
 
             ul.nav.navbar-nav.navbar-right
                 case authenticated
@@ -18,14 +23,17 @@ block content
                                 |  Log out
                     when false
                         li
-                            a(href='/')
+                            a(href='#register')
                                 span.glyphicon.glyphicon-user
                                 |  Sign Up
                         li
-                            a(href='/')
+                            a(href='#login')
                                 span.glyphicon.glyphicon-log-in
                                 |  Login
     .main.container
         case authenticated
-            when true: include projects/project_list
+            when true
+                case projectEdition
+                    when true: include activities/activity_list
+                    when false: include projects/project_list
             when false: include user/sign

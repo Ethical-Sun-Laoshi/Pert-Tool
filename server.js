@@ -32,26 +32,10 @@ app.use(morgan('dev'));
 /* Use of session */
 app.use(xsession({secret: 'mysecret', resave: false, saveUninitialized: true}))
 
-//DATABASE becomes ARRAY (web visualisation)
-/* If there is no activity list, we create an empty one */
-app.use(function(request, response, next){
-
-
-        if (typeof(request.session.activityArray) == 'undefined') {
-            request.session.activityArray = [];
-            console.log('initialisation... activity count: ' + request.session.activityArray.length)
-        }
-        next();
-    })
-
-/* If there is no activity list, we create an empty one */
-.use(function(request, response, next){
-    if (typeof(userArray) == 'undefined') {
-        userArray = [];
-        console.log('initialisation... user count : ' + userArray.length)
-    }
-    next();
-});
+userArray = [];
+// LOCAL DATABASE
+//var database = require('./configs/db-init');
+//app.use(database);
 
 
 //GET INDEX

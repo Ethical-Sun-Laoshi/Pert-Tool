@@ -7,31 +7,7 @@ neo4j_session   = driver.session();
 
 
 router.get('/', function(request, response) {
-
-    neo4j_session
-        //the usernames are unique
-        .run('CREATE CONSTRAINT ON (u:User) ASSERT u.username IS UNIQUE')
-
-        // callback function
-        .then( function(result) {
-
-            var authenticated = request.isAuthenticated();
-            console.log('authenticated: ' + authenticated);
-
-            console.log("size acti : " + request.session.activityArray.length);
-            console.log("size user : " + userArray.length);
-            response.render('index', {
-                authenticated: authenticated,
-                activities: request.session.activityArray,
-                activityCount: request.session.activityArray.length
-            });
-        }, function (error) {
-            console.log('error : ');
-            console.log(error);
-        }); // then
-
-});//router.get
-
-
+        response.render('index', {authenticated : false })
+    });//router.get
 
 module.exports = router;

@@ -6,30 +6,28 @@ driver = neo4j.driver('bolt://localhost', neo4j.auth.basic('neo4j', '16038943Bro
 neo4j_session   = driver.session();
 
 
-router.get('/:username', function(request, response, next) {
- username = request.params.username;
- console.log (username);
+router.get('/:username/dashboard', function(request, response) {
+    connectedUser = request.params.username;
+    console.log (connectedUser +' is connected');
+
     neo4j_session
         .run('MATCH (p:Project) RETURN p') //n = all nodes ; p:Project = all projects
 
         // callback function
         .then(function (result) {
+            console.log("size user : " + userArray.length);
 
-            if (typeof(request.session.activityArray) == 'undefined') {
-                request.session.activityArray = [];
-                console.log('initialisation... activity count: ' + request.session.activityArray.length)
-            }
-            next();
-
-
-            response.render('index', {
-                authenticated: authenticated
-                , activities: request.session.activityArray,
-                activityCount : request.session.activityArray.length,
-                user:userArray[lastUser].username, projects:userArray[lastUser].projects});
-            response.json({messa : 'connected'});
-
-        }, function (error) {
+            for (var i = 0, len = userArray.length; i < len; i++) {
+                var user = userArray[i];
+                if (user.username === connectedUser) {
+                    response.render('index', {
+                        authenticated   : true
+                        , projectEdition: false
+                        , user          : user.username
+                        , projects      : user.projects
+                        , projectCount  : user.projects.length
+                    })}
+            }}, function (error) {
             console.log(error)
         })
 }); //router.get

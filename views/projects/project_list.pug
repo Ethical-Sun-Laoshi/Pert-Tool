@@ -8,7 +8,7 @@
             span.label.label-info 1
             | project
         default: h2 There are
-            span.label.label-info=activityCount
+            span.label.label-info=projectCount
             | projects
 
 // BODY
@@ -21,7 +21,7 @@ div.container
                 th
         tbody
             tr
-                form(name='Project', id='Project', action="/create" method="post")
+                form(name='Project', id='Project', action='/'+user+'/create' method="post")
                     td
                         input(type='text' id="projectName" name="projectName" )
                     td
@@ -37,8 +37,9 @@ div.container
             each project in projects
                 tr
                     td= project.name
-                    td= project.activitycount
+                    td= project.activities.length
                     td
-                        a(type='button' href='/edit/project/'+ project.id ) Edit
+                        //todo : edit the url
+                        a(type='button' href='/'+ user +'/project/'+ project.id ) Edit
                             |  |
-                        a(type='button' href='/delete/project/' + project.id) Delete
+                        a(type='button' href='/'+ user +'/project/' + project.id +'delete') Delete

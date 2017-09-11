@@ -1,24 +1,26 @@
 // HEADER AND ACTIVITY COUNT
 .jumbotron.text-center
     h1 Welcome #{user}
-    h2 The current project is #{project}
-    case activityCount
+    h2 The current project is #{project.name}
+    case activities.length
         when 0: h2 Your project is empty !
-            | Add a new activity !
+            |  Add a new activity !
         when 1: h2 There is
             span.label.label-info 1
             |  activity in your project
         default: h2 There are
-            span.label.label-info=activityCount
-            | activities in your project
-
-    a.btn.btn-primary.btn-danger(href="/erase" role="button") Delete all
+            span.label.label-info=activities.length
+            |  activities in your project
+    // todo : delete all activities
+    // a.btn.btn-primary.btn-danger(href="/erase" role="button") Delete all activities
 
 // BODY
 div.container
     table.col-md-12.table
         thead
             tr
+                th.col-md-2
+                    label(for="tag") ID (tag)
                 th.col-md-2
                     label(for="description") Activity
                 th.col-md-1
@@ -31,7 +33,9 @@ div.container
                 th
         tbody
             tr
-                form(name='Activities', id='Activities', action="/add" method="post")
+                form(name='Activities', id='Activities', action='/'+user+'/project/'+project.id+'/new_activity' method="post")
+                    td
+                        input(type='text', id='tag' name='tag')
                     td
                         input(type='text', id='description', name="description" )
                     td
@@ -45,7 +49,7 @@ div.container
                         select(name='parent' form='Activities')
                             option(value = 'none') none
                             each activity in activities
-                                option(value=activity.description)= activity.description
+                                option(value=activity._fields[0].identity.low)= activity._fields[0].properties.tag
                     td
                         button(type="submit").ui.blue "Add"
     table.col-md-12.table.table-striped.table-hover
@@ -63,18 +67,18 @@ div.container
         tbody
             each activity in activities
                 tr
-                    td(scope='row')= activity.id
-                    td= activity.description
-                    td= activity.OT
-                    td= activity.MLT
-                    td= activity.PT
-                    td= (parseFloat(activity.ET)).toFixed(2)
-                    td= activity.parent
+                    td(scope='row')= activity._fields[0].properties.tag
+                    td= activity._fields[0].properties.description
+                    td= activity._fields[0].properties.OT
+                    td= activity._fields[0].properties.MLT
+                    td= activity._fields[0].properties.PT
+                    td= (parseFloat(activity._fields[0].properties.ET)).toFixed(2)
+                    td= activity._fields[0].properties.parent
                     td
                         //href='/edit?activity='+activity.id
                         a( data-toggle="modal" data-target="#editActivity") Edit
                         include edit.pug
                         |  |
-                        a( data-toggle="modal" data-target="#deleteActivity") Delete
+                        a.btn.btn-primary.btn-danger(role="button" data-toggle="modal" data-target="#deleteActivity") Delete
                         include delete.pug
 

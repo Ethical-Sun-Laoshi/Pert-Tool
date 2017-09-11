@@ -6,49 +6,18 @@ driver = neo4j.driver('bolt://localhost', neo4j.auth.basic('neo4j', '16038943Bro
 neo4j_session   = driver.session();
 
 // DELETE ONE ACTIVITY
-router.get('/delete', function(request, response) {
+router.post('/:user/project/:project/activity/:activity/delete', function(request, response) {
 
-    var id = neo4j.int(request.query.activity);
-    console.log('the activity selected is the ' +id );
+    var user        = request.params.user
+        ,project    = request.params.project
+        ,activityID = neo4j.int(request.params.activity); // or toInt(jsnumber) in the cypher query
 
     neo4j_session
-        .run('MATCH (activity:Activity)'
-            +'WHERE ID(activity)={id}'
-            +'OPTIONAL MATCH (activity)-[relations]-()'
-            +'DELETE activity, relations'
+        .run('MATCH (a:Activity) WHERE ID(a)={id} DETACH DELETE a', {id:activityID})
 
-            , {id:id}, console.log('done on  neo4j'))
-
-        //todo delete correctly like in edit
-        //https://www.w3schools.com/js/tryit.asp?filename=tryjs_array_remove
-        .then( function(result) {
-            array = [1,2,3,4,5,6,7,8,9];
-            console.log("size before delete: " + array.length);
-
-            if (id != ''){
-                console.log("the activity to delete is: " + array[id]);
-                array.splice(id, 1);
-                console.log('activity deleted');
-            }
-
-            console.log('size after delete: ' + array.length);
-            console.log('array : ' + array);
-
-            /*
-            console.log("size before delete: " + request.session.activityArray.length);
-
-            if (id != ''){
-                console.log("the activity to delete is: " + request.session.activityArray[id]);
-                request.session.activityArray.splice(id, 1);
-                console.log('activity deleted');
-            }
-
-            console.log('size after delete: ' + request.session.activityArray.length);
-            console.log('array : ' + request.session.activityArray);
-*/
-            response.redirect('/');
-        }, function (error) {
-            console.log(error);
+        .then( function() {
+            console.log('Activity erased...');
+            response.redirect('/'+user+'/project/'+ project);
         }); // then
 
 });//app.get DELETION

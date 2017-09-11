@@ -28,22 +28,47 @@ router.get('/:username/project/:projectID', function (request, response) {
                 console.log('for running');
                 if (userArray[i].username === connectedUser){
                     for (j =0 , lenP = userArray[i].projects.length;  j < lenP; j++) {
-                        console.log(userArray[i].projects);
-                        console.log('type: ' + typeof(j) + ", j: "+j);
-                        console.log(userArray[i].projects[j]);
+                        //console.log(userArray[i].projects);
+                        //console.log('type: ' + typeof(j) + ", j: "+j);
+                        //console.log(userArray[i].projects[j]);
                         project = userArray[i].projects[j];
                         if ( project.id == projectID ){
+                            console.log(true);
+                            console.log(userArray[i].projects[j]);
+                            console.log('name: '+userArray[i].projects[j].name);
+                            console.log( 'name: '+ project.name);
+
+                            if(result.records.length > 0){
+
+                                console.log('*****************record fields: ****************');
+                                for (r =0, lenR = result.records.length; r < lenR; r++) {
+
+                                   console.log(result.records[r]._fields);
+                                   console.log('///////// TEST');
+                                   console.log(result.records[r]._fields[0]);
+                                   console.log('///////// title of activity');
+                                   console.log(result.records[r]._fields[0].properties.description);
+                                }
+
+
+                                //result.records.forEach(function(record){
+                                  //  console.log('record fields:');
+                                    //console.log(record._fields);
+                                    //console.log('record fields 2:');
+                                    //console.log(record._fields[0]);
+
+                                //})
+                            }
+
 
                             response.render('index',
                                 {authenticated      : true
                                     , projectEdition: true
                                     , user          : connectedUser
-                                    , projectName   : project.name
-                                    , activityCount : result.records.length
+                                    , project       : project
                                     , activities    : result.records
-                                    , projects      : userArray[i].projects[j]
-                                    , projectCount  : userArray[i].projects.length
                                 })
+                            neo4j_session.close();
                         }// if2
                     } // for2
                 } //if1
@@ -51,15 +76,6 @@ router.get('/:username/project/:projectID', function (request, response) {
 
         }, function(error){console.log(error)});//then
 
-});
-
-router.post('/edit/project/', function (request, response) {
-    neo4j_session.run()
-        .then(function(request,response){
-
-        },function(error){
-
-        })
 });
 
 module.exports = router;

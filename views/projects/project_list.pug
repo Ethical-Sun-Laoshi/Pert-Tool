@@ -1,14 +1,14 @@
 // HEADER AND ACTIVITY COUNT
 .jumbotron.text-center
     h1 Welcome #{user}
-    case projectCount
+    case projects.length
         when 0: h2 You have no project.
             | Start a project !
         when 1: h2 There is
             span.label.label-info 1
             | project
         default: h2 There are
-            span.label.label-info=projectCount
+            span.label.label-info=projects.length
             | projects
 
 // BODY
@@ -39,7 +39,6 @@ div.container
                     td= project.name
                     td= project.activities.length
                     td
-                        //todo : edit the url
                         a(type='button' href='/'+ user +'/project/'+ project.id ) Edit
                             |  |
-                        a(type='button' href='/'+ user +'/project/' + project.id +'delete') Delete
+                        a(type='button' href='/'+ user +'/project/' + project.id +'/delete') Delete

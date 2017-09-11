@@ -6,22 +6,23 @@ driver = neo4j.driver('bolt://localhost', neo4j.auth.basic('neo4j', '16038943Bro
 neo4j_session   = driver.session();
 
 //DELETE ALL THE PROJECT
-router.get('/erase', function(request, response) {
+router.post('/:user/project/:projectID/delete', function(request, response) {
+
+    var user             = request.params.user
+        ,projectToDelete = request.params.projectID;
 
     neo4j_session
-        .run('MATCH (n) DETACH DELETE n') //todo : this project belonging to this user
+        .run('MATCH (p:Project) WHERE ID(p)=toInt({projectID}) DETACH DELETE p', {projectID:projectToDelete})
 
+        .then( function() {
 
-        .then( function(result) {
-
-            request.session.activityArray = [];
             console.log('Project erased...');
-            response.redirect('/');
+            response.redirect('/'+user+'/dashboard');
 
         },function (error) {
             console.log(error);
         });
 
-});//app.get DELETION
+});//router.post DELETION
 
 module.exports = router ;

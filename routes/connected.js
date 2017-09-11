@@ -25,7 +25,6 @@ router.get('/:username/dashboard', function(request, response) {
                         , projectEdition: false
                         , user          : user.username
                         , projects      : user.projects
-                        , projectCount  : user.projects.length
                     })}
             }}, function (error) {
             console.log(error)

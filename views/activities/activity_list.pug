@@ -1,15 +1,15 @@
 // HEADER AND ACTIVITY COUNT
 .jumbotron.text-center
     h1 Welcome #{user}
-    h2 The current project is #{project.name}
-    case activities.length
+    h2 The current project is #{project}
+    case activityCount
         when 0: h2 Your project is empty !
             |  Add a new activity !
         when 1: h2 There is
             span.label.label-info 1
             |  activity in your project
         default: h2 There are
-            span.label.label-info=activities.length
+            span.label.label-info=activityCount
             |  activities in your project
     // todo : delete all activities
     // a.btn.btn-primary.btn-danger(href="/erase" role="button") Delete all activities
@@ -33,7 +33,7 @@ div.container
                 th
         tbody
             tr
-                form(name='Activities', id='Activities', action='/'+user+'/project/'+project.id+'/new_activity' method="post")
+                form(name='Activities', id='Activities', action='/'+user+'/project/'+projectID+'/new_activity' method="post")
                     td
                         input(type='text', id='tag' name='tag')
                     td
@@ -45,11 +45,12 @@ div.container
                     td
                         input(type='number', id='PT', name="PT")
                     td
-                        //todo : select(multiple) to enable multiple options (cypher : collection [])
-                        select(name='parent' form='Activities')
+
+                        select(name='predecessors' form='Activities')
                             option(value = 'none') none
-                            each activity in activities
-                                option(value=activity._fields[0].identity.low)= activity._fields[0].properties.tag
+                            - for(var i=0; i < activityCount; i++){
+                                option(value=activities[i].identity.low)= activities[i].properties.tag
+                            - }
                     td
                         button(type="submit").ui.blue "Add"
     table.col-md-12.table.table-striped.table-hover
@@ -57,28 +58,29 @@ div.container
             tr
                 th.col-md-1 #ID
                 th Activity description
-                th Optimistic Time
-                th Most Likely Time
-                th Pessimistic Time
                 th Expected Time
                 th Depends on
+                th Earliest Start time
+                th Earliest Finish time
+                th Latest Start time
+                th Latest Finish time
                 th.col-md-2 Options
 
         tbody
-            each activity in activities
+            - for(var i=0; i < activityCount; i++){
                 tr
-                    td(scope='row')= activity._fields[0].properties.tag
-                    td= activity._fields[0].properties.description
-                    td= activity._fields[0].properties.OT
-                    td= activity._fields[0].properties.MLT
-                    td= activity._fields[0].properties.PT
-                    td= (parseFloat(activity._fields[0].properties.ET)).toFixed(2)
-                    td= activity._fields[0].properties.parent
-                    td
-                        //href='/edit?activity='+activity.id
-                        a( data-toggle="modal" data-target="#editActivity") Edit
+                    td(scope='row')= activities[i].properties.tag
+                    td= activities[i].properties.description
+                    td= (parseFloat(activities[i].properties.ET)).toFixed(2)
+                    td= activities[i].properties.ES
+                    td= activities[i].properties.EF
+                    td= activities[i].properties.LS
+                    td= activities[i].properties.LF
+                    td= activities[i].properties.predecessors
+                    //td
+                        a.btn.btn-primary( role="button" data-toggle="modal" data-target="#editActivity") Edit
                         include edit.pug
                         |  |
                         a.btn.btn-primary.btn-danger(role="button" data-toggle="modal" data-target="#deleteActivity") Delete
                         include delete.pug
-
+            - }

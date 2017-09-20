@@ -1,14 +1,14 @@
 // HEADER AND ACTIVITY COUNT
 .jumbotron.text-center
     h1 Welcome #{user}
-    case projects.length
+    case projectCount
         when 0: h2 You have no project.
-            | Start a project !
+            |  Start a project !
         when 1: h2 There is
             span.label.label-info 1
             | project
         default: h2 There are
-            span.label.label-info=projects.length
+            span.label.label-info=projectCount
             | projects
 
 // BODY
@@ -30,15 +30,24 @@ div.container
         thead
             tr
                 th.col-md-2 Project
-                th.col-md-2 Activities
+                //th.col-md-2 Activities
                 th.col-md-2 Options
 
         tbody
             each project in projects
                 tr
-                    td= project.name
-                    td= project.activities.length
-                    td
-                        a(type='button' href='/'+ user +'/project/'+ project.id ) Edit
+                    if project.properties.name === ''
+                        td No project created
+                    else
+                        td= project.properties.name
+                        //td= project.activities.length
+                        td
+                            a.btn.btn-primary( role="button" data-toggle="modal" data-target="#editActivity") Edit
+                            //include edit.pug
                             |  |
-                        a(type='button' href='/'+ user +'/project/' + project.id +'/delete') Delete
+                            a.btn.btn-primary.btn-danger(role="button" data-toggle="modal" data-target="#deleteActivity") Delete
+                            //include delete.pug
+
+                            a(type='button' href= ) Edit
+                                |  |
+                            a(type='button' href='/'+ user +'/project/' + project.id +'/delete') Delete

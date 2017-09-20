@@ -1,6 +1,6 @@
 #editActivity.modal.fade(role='dialog')
     .modal-dialog
-        form(name="Edition" id='Edition' action="/"+user+"/project/"+projectID+"/activity/"+ activities[i].identity.low+"/edit" method='post')
+        form(name="Edition" id='Edition' action='/'+ user +'/project/'+ project.identity.low method='post')
             .modal-content
                 .modal-header
                     button.close(type="button" data-dismiss="modal") x
@@ -23,8 +23,8 @@
                                     //todo : select(multiple) to enable multiple options (cypher : collection [])
                                     select(name='parentEdit' form='edition' id='parentEdit')
                                         option(value = 'none') none
-
-                                            option(value=activities[i].properties.description)= activities[i].properties.description
+                                        each activity in activities
+                                            option(value=activity.description)= activity.description
                         thead
                             tr
                                 th

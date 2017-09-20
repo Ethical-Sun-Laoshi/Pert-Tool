@@ -1,13 +1,13 @@
 #deleteActivity.modal.fade(role='dialog')
     .modal-dialog
         .modal-content
-            form(action='/'+user+'/project/'+projectID+'/activity/'+activities[i].identity.low+'/delete' method="post")
+            form(action='/'+user+'/project/'+project.id+'/activity/'+activity._fields[0].identity.low+'/delete' method="post")
                 .modal-header
                     button.close(type="button" data-dismiss="modal") x
                     h4.modal-title Delete Activity
                 .modal-body
                     p This action will definitely delete the activity named
-                    p=activities[i].properties.description
+                    p=activity.description
                     | and all associated relations. It cannot be recovered
                     p Are you sure ?
                 .modal-footer

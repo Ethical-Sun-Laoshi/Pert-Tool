@@ -2,6 +2,11 @@
 .jumbotron.text-center
     h1 Welcome #{user}
     h2 The current project is #{project}
+    case duration
+            when 0
+                - break
+            when 1: h2 with a duration of <span class="label label-success"> #{pDuration}</span> time unit.
+            default: h2 with a duration of <span class="label label-success"> #{pDuration}</span> time units.
     case activityCount
         when 0: h2 Your project is empty !
             |  Add a new activity !

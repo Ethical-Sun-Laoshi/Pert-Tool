@@ -29,17 +29,30 @@ router.get('/:username/project/:projectID', function (request, response) {
                 , activities    = result.records[0].get('collect(a)')
                 , activityCount = result.records[0].get('activityCount');
 
-            response.render('index',
-                {authenticated         : true
-                    , projectEdition   : true
-                    , user             : connectedUser
-                    , projectID        : projectID
-                    , project          : project
-                    , activities       : activities
-                    , activityCount    : activityCount
-                });
+            neo4j_session.run('MATCH (p:Project)-[:CONTAINS]->(start:EndPoint {position:"Start"}) WHERE ID(p)=toInteger({projectID})'
+                +' WITH start'
+                +' MATCH cp = (start)-[e:ENABLES*]->(:EndPoint {position:"Finish"})'
+                +' WITH cp, REDUCE(x = 0, a IN NODES(cp) | x + a.ET) AS project_duration ORDER BY project_duration DESC LIMIT 1'
+                +' RETURN project_duration'
+                , {projectID:projectID})
+                .then(function(result){
 
-            neo4j_session.close();
+                    pDuration = result.records[0].get('project_duration');
+
+                    response.render('index',
+                        {authenticated         : true
+                            , projectEdition   : true
+                            , user             : connectedUser
+                            , projectID        : projectID
+                            , project          : project
+                            , activities       : activities
+                            , activityCount    : activityCount
+                            , pDuration        : pDuration
+                        });
+
+                    neo4j_session.close();
+
+                },function(error){console.log(error)})
         }, function(error){console.log(error)});
 
 });

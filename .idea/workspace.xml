@@ -6,9 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="994a4a17-290e-403f-985b-b46104dafb05" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/activities/add_activity.js" afterPath="$PROJECT_DIR$/routes/activities/add_activity.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/projects/create_project.js" afterPath="$PROJECT_DIR$/routes/projects/create_project.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server.js" afterPath="$PROJECT_DIR$/server.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/projects/edit_project.js" afterPath="$PROJECT_DIR$/routes/projects/edit_project.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/activities/activity_list.pug" afterPath="$PROJECT_DIR$/views/activities/activity_list.pug" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -36,11 +34,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="add_activity.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="edit_project.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/routes/projects/edit_project.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="120">
+              <caret line="38" column="0" lean-forward="false" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="add_activity.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/routes/activities/add_activity.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="80">
-              <caret line="85" column="45" lean-forward="false" selection-start-line="85" selection-start-column="45" selection-end-line="85" selection-end-column="45" />
+            <state relative-caret-position="-764">
+              <caret line="47" column="29" lean-forward="false" selection-start-line="47" selection-start-column="29" selection-end-line="47" selection-end-column="29" />
               <folding />
             </state>
           </provider>
@@ -56,11 +64,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="activity_list.pug" pinned="false" current-in-tab="false">
+      <file leaf-file-name="activity_list.pug" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/views/activities/activity_list.pug">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1326">
-              <caret line="78" column="38" lean-forward="false" selection-start-line="78" selection-start-column="38" selection-end-line="78" selection-end-column="38" />
+            <state relative-caret-position="70">
+              <caret line="8" column="109" lean-forward="false" selection-start-line="8" selection-start-column="109" selection-end-line="8" selection-end-column="109" />
               <folding />
             </state>
           </provider>
@@ -207,11 +215,11 @@
         <option value="$PROJECT_DIR$/console cypher.js" />
         <option value="$PROJECT_DIR$/views/activities/delete.pug" />
         <option value="$PROJECT_DIR$/views/activities/edit.pug" />
-        <option value="$PROJECT_DIR$/routes/projects/edit_project.js" />
-        <option value="$PROJECT_DIR$/views/activities/activity_list.pug" />
         <option value="$PROJECT_DIR$/server.js" />
         <option value="$PROJECT_DIR$/routes/projects/create_project.js" />
         <option value="$PROJECT_DIR$/routes/activities/add_activity.js" />
+        <option value="$PROJECT_DIR$/routes/projects/edit_project.js" />
+        <option value="$PROJECT_DIR$/views/activities/activity_list.pug" />
       </list>
     </option>
   </component>
@@ -232,8 +240,7 @@
     <handled-path value="$PROJECT_DIR$/node_modules" />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="504" />
-    <option name="y" value="234" />
+    <option name="x" value="1905" />
     <option name="width" value="1950" />
     <option name="height" value="2055" />
   </component>
@@ -263,17 +270,13 @@
             <path>
               <item name="Essai" type="b2602c69:ProjectViewProjectNode" />
               <item name="Essai" type="462c0819:PsiDirectoryNode" />
-              <item name="configs" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Essai" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Essai" type="462c0819:PsiDirectoryNode" />
-              <item name="db" type="462c0819:PsiDirectoryNode" />
+              <item name="routes" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Essai" type="b2602c69:ProjectViewProjectNode" />
               <item name="Essai" type="462c0819:PsiDirectoryNode" />
               <item name="routes" type="462c0819:PsiDirectoryNode" />
+              <item name="projects" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -381,7 +384,7 @@
       <workItem from="1505147081680" duration="14355000" />
       <workItem from="1505883730633" duration="38831000" />
       <workItem from="1506191659751" duration="3259000" />
-      <workItem from="1506256846028" duration="5215000" />
+      <workItem from="1506256846028" duration="11880000" />
     </task>
     <task id="LOCAL-00001" summary="connection with database&#10;Success : I can see in the console the created nodes">
       <created>1503351692700</created>
@@ -467,11 +470,18 @@
       <option name="project" value="LOCAL" />
       <updated>1505950321248</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="#15-&#10;DONE : network =&gt; start to finish&#10;DOING: critical path&#10;TODO : standard deviation (critical path)&#10;THEN : probability&#10;THEN : correct project deletion,, login">
+      <created>1506278714939</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1506278714965</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="434293000" />
+    <option name="totallyTimeSpent" value="440958000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -483,15 +493,15 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="168" y="78" width="650" height="685" extended-state="0" />
+    <frame x="635" y="0" width="650" height="685" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.34343433" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.42087543" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32960895" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.45437616" sideWeight="0.5186084" order="10" side_tool="true" content_ui="tabs" />
       <window_info id="Graph Database Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.15642458" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.17877094" sideWeight="0.4935275" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.69433963" sideWeight="0.48139158" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24528302" sideWeight="0.48139158" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24919094" sideWeight="0.4893617" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Graph Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32119742" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.20297952" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
@@ -586,7 +596,8 @@
     <MESSAGE value="#12 -&#10;DONE : project deletion, activity creation(1), deletion&#10;TODO : new branch : CYPHER&#10;TODO : cypherise the code (delete the userArray)&#10;THEN : correct project deletion, activity creation(2), login&#10;THEN : standard derivation, critical path, probability" />
     <MESSAGE value="#13-&#10;DONE : new branch : CYPHER&#10;DONE : cypherise the code (delete the userArray)&#10;DONE : activity creation(2)&#10;TODO : standard derivation,&#10;DOING: critical path&#10;THEN : probability&#10;THEN : correct project deletion,, login" />
     <MESSAGE value="#14-&#10;DONE : standard deviation (activities),&#10;DOING: critical path&#10;TODO : standard deviation (critical path)&#10;THEN : probability&#10;THEN : correct project deletion,, login" />
-    <option name="LAST_COMMIT_MESSAGE" value="#14-&#10;DONE : standard deviation (activities),&#10;DOING: critical path&#10;TODO : standard deviation (critical path)&#10;THEN : probability&#10;THEN : correct project deletion,, login" />
+    <MESSAGE value="#15-&#10;DONE : network =&gt; start to finish&#10;DOING: critical path&#10;TODO : standard deviation (critical path)&#10;THEN : probability&#10;THEN : correct project deletion,, login" />
+    <option name="LAST_COMMIT_MESSAGE" value="#15-&#10;DONE : network =&gt; start to finish&#10;DOING: critical path&#10;TODO : standard deviation (critical path)&#10;THEN : probability&#10;THEN : correct project deletion,, login" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -795,21 +806,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/routes/projects/edit_project.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" column="24" lean-forward="false" selection-start-line="14" selection-start-column="24" selection-end-line="14" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/activities/activity_list.pug">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1326">
-          <caret line="78" column="38" lean-forward="false" selection-start-line="78" selection-start-column="38" selection-end-line="78" selection-end-column="38" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
@@ -880,6 +876,14 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/routes/activities/add_activity.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-764">
+          <caret line="47" column="29" lean-forward="false" selection-start-line="47" selection-start-column="29" selection-end-line="47" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/routes/projects/create_project.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="378">
@@ -888,10 +892,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/routes/activities/add_activity.js">
+    <entry file="file://$PROJECT_DIR$/routes/projects/edit_project.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="80">
-          <caret line="85" column="45" lean-forward="false" selection-start-line="85" selection-start-column="45" selection-end-line="85" selection-end-column="45" />
+        <state relative-caret-position="120">
+          <caret line="38" column="0" lean-forward="false" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/activities/activity_list.pug">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="70">
+          <caret line="8" column="109" lean-forward="false" selection-start-line="8" selection-start-column="109" selection-end-line="8" selection-end-column="109" />
           <folding />
         </state>
       </provider>

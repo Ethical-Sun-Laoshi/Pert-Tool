@@ -12,7 +12,7 @@ router.post('/:username/create',function(request, response, next){
 
     neo4j_session.run('MATCH (u:User)'
         +'WHERE u.username={currentUser}'
-        +'CREATE (p:Project{name:{projectName}}),(u)-[r:OWNS]->(p), (start:Activity{tag:"start", description:"start", ET:0, ES:0, EF:0:, LS:0, LF:0 }), (p)-[:CONTAINS]->(start)'
+        +'CREATE (p:Project{name:{projectName}}),(u)-[r:OWNS]->(p), (start:EndPoint{position:"Start", successors:[], ET:0, ES:0, EF:0, LS:0, LF:0 }),(finish:EndPoint{position:"Finish", predecessors:[], ET:0, ES:0, EF:0, LS:0, LF:0 }), (p)-[:CONTAINS]->(start),(p)-[:CONTAINS]->(finish)'
         +'RETURN p'
         ,{ currentUser: connectedUser, projectName: projectName })
 

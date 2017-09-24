@@ -72,11 +72,12 @@ div.container
                     td(scope='row')= activities[i].properties.tag
                     td= activities[i].properties.description
                     td= (parseFloat(activities[i].properties.ET)).toFixed(2)
-                    td= activities[i].properties.ES
-                    td= activities[i].properties.EF
-                    td= activities[i].properties.LS
-                    td= activities[i].properties.LF
                     td= activities[i].properties.predecessors
+                    td= (parseFloat(activities[i].properties.ES)).toFixed(2)
+                    td= (parseFloat(activities[i].properties.EF)).toFixed(2)
+                    td= (parseFloat(activities[i].properties.LS)).toFixed(2)
+                    td= (parseFloat(activities[i].properties.LF)).toFixed(2)
+
                     //td
                         a.btn.btn-primary( role="button" data-toggle="modal" data-target="#editActivity") Edit
                         include edit.pug

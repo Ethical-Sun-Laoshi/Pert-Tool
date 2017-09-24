@@ -30,7 +30,7 @@ app.use(morgan('dev'));
 //app.use(flash);
 
 /* Use of session */
-app.use(xsession({secret: 'mysecret', resave: false, saveUninitialized: true}))
+app.use(xsession({secret: 'mysecret', resave: false, saveUninitialized: true}));
 
 userArray = [];
 // LOCAL DATABASE

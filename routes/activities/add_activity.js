@@ -45,7 +45,7 @@ router.post('/:username/project/:projectID/new_activity', function(request, resp
             neo4j_session
                 .run('MATCH (p:Project) WHERE ID(p)=toInteger({pID})'
                     +' MATCH (p)-[:CONTAINS]->(start:EndPoint{position:"Start"})'
-                    +' CREATE (new:Activity {tag:{tag}, description:{description}, PT:{PT}, MLT:{MLT}, OT:{OT}, ET:{ET}, predecessors:[start.position], successors:[], ES:0, EF:{ET}, LS:0, LF:0, std:{std} }),'
+                    +' CREATE (new:Activity {tag:{tag}, description:{description}, PT:{PT}, MLT:{MLT}, OT:{OT}, ET:{ET}, predecessors:["-"], successors:[], ES:0, EF:{ET}, LS:0, LF:0, std:{std} }),'
                     +' (p)-[:CONTAINS]->(new), (start)-[:ENABLES]->(new)'
                     +' SET start.successors =+ new.tag'
                     , {pID: currentProject, tag:tag, description:description, PT:PT, MLT:MLT, OT:OT, ET:ET, std:std})

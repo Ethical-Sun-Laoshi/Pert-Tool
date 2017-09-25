@@ -32,12 +32,19 @@ router.get('/:username/project/:projectID', function (request, response) {
             neo4j_session.run('MATCH (p:Project)-[:CONTAINS]->(start:EndPoint {position:"Start"}) WHERE ID(p)=toInteger({projectID})'
                 +' WITH start'
                 +' MATCH cp = (start)-[e:ENABLES*]->(:EndPoint {position:"Finish"})'
-                +' WITH cp, REDUCE(x = 0, a IN NODES(cp) | x + a.ET) AS project_duration ORDER BY project_duration DESC LIMIT 1'
-                +' RETURN project_duration'
+                +' WITH cp, NODES(cp) AS criticalPath'
+                +' WITH cp, criticalPath, REDUCE(x = 0, a IN criticalPath | x + a.ET) AS project_duration ORDER BY project_duration DESC LIMIT 1'
+                +' WITH cp, criticalPath, project_duration'
+                +' UNWIND criticalPath AS criticalActivity'
+                +' WITH cp, criticalPath, criticalActivity, project_duration'
+                +' RETURN project_duration, collect(criticalActivity.tag) AS nCriticalPath'
                 , {projectID:projectID})
                 .then(function(result){
 
-                    pDuration = result.records[0].get('project_duration');
+                    console.log("//// CRITICAL PATH /// ");
+                    console.log(result.records[0].get('nCriticalPath'));
+                    criticalPath    = result.records[0].get('nCriticalPath')
+                         ,pDuration = result.records[0].get('project_duration');
 
                     response.render('index',
                         {authenticated         : true
@@ -48,6 +55,7 @@ router.get('/:username/project/:projectID', function (request, response) {
                             , activities       : activities
                             , activityCount    : activityCount
                             , pDuration        : pDuration
+                            , criticalPath     : criticalPath
                         });
 
                     neo4j_session.close();

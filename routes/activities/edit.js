@@ -1,37 +1,47 @@
-var express = require('express'),
-    router = express.Router();
+// --- routes/activities/edit.js ---  //
 
-neo4j  = require('neo4j-driver').v1;
-driver = neo4j.driver('bolt://localhost', neo4j.auth.basic('neo4j', '16038943Brookes'));
-neo4j_session   = driver.session();
+/* ! NOT IN USE !*/
+/* TODO : EDIT AN ACTIVITY */
 
-// todo : "parent" and "nino" become collections (cypher: []) to store multiple data
-// EDIT ONE ACTIVITY
-router.post('/edit', function(request, response, next){
+// / ** DEPENDENCIES ** //
+// > all the modules we need
+var router        = require('../../configs/modules').router;
+var neo4j_session = require('../../configs/db').neo4j_session;
+
+// ** CONFIGURATION ** //
+// - Activity List : Activity Edition - /
+router.post('/edit', function(request, response){
+
+    // >> If the body is empty ...
     if (request.body === undefined
-        || request.body.actEdit === ''
-        || request.body.otEdit  === ''
-        || request.body.mltEdit === ''
-        || request.body.ptEdit  === '')
+            // >> ... or one of the required fields
+        || request.body.actEdit === ''  || request.body.otEdit  === ''
+        || request.body.mltEdit === ''  || request.body.ptEdit  === '')
     {
-        //request.flash('error', "The form is empty");
         console.log('error', "The form is empty");
-
     }
+    // >> Else
     else {
 
+        // >> Store the user inputs and make calculations
         var thisID       = neo4j.int(request.query.activity)
             , actEdit    = request.body.actEdit
             , otEdit     = parseFloat(request.body.otEdit)
             , mltEdit    = parseFloat(request.body.mltEdit)
             , ptEdit     = parseFloat(request.body.ptEdit)
             , etEdit     = ((otEdit+(4*mltEdit)+ptEdit)/6)
+            , variance   = Math.pow(((ptEdit - otEdit)/6),2)
             , parentEdit = request.body.parentEdit;
 
-        console.log('the activity selected is the ' +thisID );
-
-        //console.log("body: ");
+        console.log('the activity selected is the ' + thisID );
         console.log(request.body );
+
+        // See : add activity --> predecessors
+        // ../../views/activity/edit.pug --> predecessors : select-multiple with not inferior activities (lower ID)
+        // Todo : change the relationships
+        // See : add activity --> updateNetwork(projectID)
+
+
 
         if (request.body.parentEdit === 'none' || request.body.parentEdit == null){ //if there is no parent
 

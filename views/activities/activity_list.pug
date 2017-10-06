@@ -2,11 +2,12 @@
 .jumbotron.text-center
     h1 Welcome #{user}
     h2 The current project is #{project}
+    - var duration = pDuration.toFixed(2)
     case duration
             when 0
                 - break
-            when 1: h2 with a duration of <span class="label label-success"> #{pDuration}</span> time unit.
-            default: h2 with a duration of <span class="label label-success"> #{pDuration}</span> time units.
+            when 1: h2 with a duration of <span class="label label-success"> #{duration}</span> time unit.
+            default: h2 with a duration of <span class="label label-success"> #{duration}</span> time units.
     case activityCount
         when 0: h2 Your project is empty !
             |  Add a new activity !
@@ -17,52 +18,53 @@
             span.label.label-info=activityCount
             |  activities in your project
     // todo : delete all activities
-    // a.btn.btn-primary.btn-danger(href="/erase" role="button") Delete all activities
+    // a.btn.btn-primary.btn-danger(href="/:user/project/:projectID/activities/delete" role="button") Delete all activities
 
 // BODY
 div.container-fluid
+    // >> Show the critical path
     div.wrapper
         div.content-main
             p The critical path is composed of
                 each criticalActivity in criticalPath
                     |  > #{criticalActivity}
+    // >> Form to add a new activity
     table.col-md-12.table
         thead
             tr
                 th.col-md-2
-                    label(for="tag") ID (tag)
+                    label(for="tag") ID (tag) *
                 th.col-md-2
                     label(for="description") Activity
                 th.col-md-1
-                    label(for="OT") Optimistic Time
+                    label(for="OT") Optimistic Time *
                 th.col-md-1
-                    label(for="MLT") Most Likely Time
+                    label(for="MLT") Most Likely Time *
                 th.col-md-1
-                    label(for="PT") Pessimistic Time
+                    label(for="PT") Pessimistic Time *
                 th.col-md-2 Depends on
                 th
         tbody
             tr
                 form(name='Activities', id='Activities', action='/'+user+'/project/'+projectID+'/new_activity' method="post")
                     td
-                        input(type='text', id='tag' name='tag')
+                        input(type='text', id='tag', name='tag', required=true)
                     td
                         input(type='text', id='description', name="description" )
                     td
-                        input(type='number', id='OT', name="OT" )
+                        input(type='number', step=0.01, min=0, id='OT', name="OT", required=true )
                     td
-                        input(type='number', id='MLT', name="MLT")
+                        input(type='number', step=0.01, min=0, id='MLT', name="MLT", required=true)
                     td
-                        input(type='number', id='PT', name="PT")
+                        input(type='number', step=0.01, min=0, id='PT', name="PT", required=true)
                     td
+                        select(multiple='multiple', name="predecessors")
+                            each activity in activities
+                                option(type='checkbox', name='predecessors', value=activity.identity.low)=activity.properties.tag
+                    td
+                        button(type="submit").ui.blue Add
 
-                        select(name='predecessors' form='Activities')
-                            option(value = 'none') none
-                            - for(var i=0; i < activityCount; i++){
-                                option(value=activities[i].identity.low)= activities[i].properties.tag
-                            - }
-                    td
-                        button(type="submit").ui.blue "Add"
+    // >> Show all the activities of the project
     table.col-md-12.table.table-striped.table-hover
         thead
             tr
@@ -88,12 +90,21 @@ div.container-fluid
                     td= (parseFloat(activities[i].properties.EF)).toFixed(2)
                     td= (parseFloat(activities[i].properties.LS)).toFixed(2)
                     td= (parseFloat(activities[i].properties.LF)).toFixed(2)
-                    td slack
+                    td= (parseFloat(activities[i].properties.slack)).toFixed(2)
 
                     //td
+                // Todo : edit activity
                         a.btn.btn-primary( role="button" data-toggle="modal" data-target="#editActivity") Edit
                         include edit.pug
                         |  |
+                // todo : delete activity
                         a.btn.btn-primary.btn-danger(role="button" data-toggle="modal" data-target="#deleteActivity") Delete
                         include delete.pug
             - }
+
+script.
+    $("select").multipleSelect({
+        width: 100,
+        multiple: true,
+        multipleWidth: 55
+    });

@@ -12,7 +12,7 @@
             | projects
 
 // BODY
-div.container
+.container
     table.col-md-12.table
         thead
             tr
@@ -25,12 +25,12 @@ div.container
                     td
                         input(type='text' id="projectName" name="projectName" )
                     td
-                        button(type="submit").ui.blue "Create"
+                        button(type="submit").ui.blue Create
     table.col-md-12.table.table-striped.table-hover
         thead
             tr
                 th.col-md-2 Project
-                //th.col-md-2 Activities
+                th.col-md-2 Activities
                 th.col-md-2 Options
 
         tbody
@@ -40,7 +40,7 @@ div.container
                         td No project created
                     else
                         td= project.properties.name
-                        //td= project.activities.length
+                        td= project.properties.activityCount
                         td
                             a.btn.btn-primary( role="button" data-toggle="modal" data-target="#editActivity") Edit
                             //include edit.pug
@@ -48,6 +48,6 @@ div.container
                             a.btn.btn-primary.btn-danger(role="button" data-toggle="modal" data-target="#deleteActivity") Delete
                             //include delete.pug
 
-                            a(type='button' href= ) Edit
+                            //a(type='button' href= ) Edit
                                 |  |
-                            a(type='button' href='/'+ user +'/project/' + project.id +'/delete') Delete
+                            //a(type='button' href='/'+ user +'/project/' + project.id +'/delete') Delete

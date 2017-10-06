@@ -1,39 +1,36 @@
+//- >> Call and use layout file
 extends layout
 
 block content
-    nav.navbar.navbar-inverse
-        .container-fluid
-            .navbar-header
-                a.navbar-brand(href='/') Planning Tool
-            ul.nav.navbar-nav
-                case authenticated
-                    when true
+    case authenticated
+        when true
+            //-  >> Show the content is the user is authenticated
+            nav.navbar.navbar-inverse
+                .container-fluid
+                    .navbar-header
+                        a.navbar-brand(href='/'+user+'/dashboard') Planning Tool
+                    ul.nav.navbar-nav
                         li.active
-                            a(href='/'+user+'/dashboard') Home
-                    when false
-                        li.active
-                            a(href='/') Home
-
-            ul.nav.navbar-nav.navbar-right
-                case authenticated
-                    when true
+                            a(href='/' + user + '/dashboard') Home
+                    ul.nav.navbar-nav.navbar-right
                         li
                             a(href='/logout')
                                 span.glyphicon.glyphicon-log-out
                                 |  Log out
-                    when false
-                        li
-                            a(href='#register')
-                                span.glyphicon.glyphicon-user
-                                |  Sign Up
-                        li
-                            a(href='#login')
-                                span.glyphicon.glyphicon-log-in
-                                |  Login
-    .main.container
-        case authenticated
-            when true
+            .main.container
                 case projectEdition
                     when true: include activities/activity_list
                     when false: include projects/project_list
-            when false: include user/sign
+
+        when false
+            //- >> Show the content when the user is not authenticated
+            nav.navbar.navbar-inverse
+                .container-fluid
+                    .navbar-header
+                        a.navbar-brand(href='/') Planning Tool
+                    ul.nav.navbar-nav
+                        li.active
+                            a(href='/') Home
+            .main.container
+                include user/welcome
+                include user/sign

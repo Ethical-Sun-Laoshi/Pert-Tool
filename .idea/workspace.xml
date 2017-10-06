@@ -5,39 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="994a4a17-290e-403f-985b-b46104dafb05" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/configs/modules.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/scripts/multiple-select.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/style/add_activity.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/routes/activities/add.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/routes/activities/delete.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/routes/projects/create.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/routes/projects/delete.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/routes/projects/edit.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/views/user/welcome.pug" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/console cypher.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/controllers/routes.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/db/users.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/middlewares/flash.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/models/Activity.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/routes/activities/add_activity.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/routes/activities/delete_activity.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/routes/projects/create_project.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/routes/projects/delete_project.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/routes/projects/edit_project.js" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/configs/db.js" afterPath="$PROJECT_DIR$/configs/db.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/configs/port.js" afterPath="$PROJECT_DIR$/configs/port.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/activities/edit.js" afterPath="$PROJECT_DIR$/routes/activities/edit.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/connected.js" afterPath="$PROJECT_DIR$/routes/connected.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/index.js" afterPath="$PROJECT_DIR$/routes/index.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server.js" afterPath="$PROJECT_DIR$/server.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/activities/activity_list.pug" afterPath="$PROJECT_DIR$/views/activities/activity_list.pug" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/activities/edit.pug" afterPath="$PROJECT_DIR$/views/activities/edit.pug" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/index.pug" afterPath="$PROJECT_DIR$/views/index.pug" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/layout.pug" afterPath="$PROJECT_DIR$/views/layout.pug" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/projects/project_list.pug" afterPath="$PROJECT_DIR$/views/projects/project_list.pug" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/user/sign.pug" afterPath="$PROJECT_DIR$/views/user/sign.pug" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/activities/delete.js" afterPath="$PROJECT_DIR$/routes/activities/delete.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -64,7 +33,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="edit.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="edit.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/routes/projects/edit.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="102">
@@ -82,6 +51,19 @@
             <state relative-caret-position="0">
               <caret line="0" column="29" lean-forward="false" selection-start-line="0" selection-start-column="29" selection-end-line="0" selection-end-column="29" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="delete.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/routes/activities/delete.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="166">
+              <caret line="10" column="25" lean-forward="true" selection-start-line="10" selection-start-column="25" selection-end-line="10" selection-end-column="25" />
+              <folding>
+                <element signature="e#441#1348#0" expanded="false" />
+                <element signature="e#1494#2124#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -183,13 +165,13 @@
         <option value="$PROJECT_DIR$/routes/users/login.js" />
         <option value="$PROJECT_DIR$/routes/activities/delete_activity.js" />
         <option value="$PROJECT_DIR$/views/activities/activity_list.pug" />
-        <option value="$PROJECT_DIR$/routes/activities/delete.js" />
         <option value="$PROJECT_DIR$/routes/activities/add.js" />
         <option value="$PROJECT_DIR$/views/activities/edit.pug" />
         <option value="$PROJECT_DIR$/routes/projects/create.js" />
         <option value="$PROJECT_DIR$/routes/projects/delete.js" />
         <option value="$PROJECT_DIR$/routes/projects/edit.js" />
         <option value="$PROJECT_DIR$/server.js" />
+        <option value="$PROJECT_DIR$/routes/activities/delete.js" />
       </list>
     </option>
   </component>
@@ -359,7 +341,7 @@
       <workItem from="1506611972227" duration="58369000" />
       <workItem from="1506813632851" duration="885000" />
       <workItem from="1506982038857" duration="43218000" />
-      <workItem from="1507133248651" duration="20677000" />
+      <workItem from="1507133248651" duration="21054000" />
     </task>
     <task id="LOCAL-00001" summary="connection with database&#10;Success : I can see in the console the created nodes">
       <created>1503351692700</created>
@@ -466,11 +448,18 @@
       <option name="project" value="LOCAL" />
       <updated>1506298862607</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="#16 -&#10;DONE : critical path (everything)&#10;DONE : ES EF / LS LF&#10;DONE : Register, Login, Logout (bcrypt)&#10;TODO : standard deviation (critical path)&#10;TODO : probability&#10;THEN : correct project deletion">
+      <created>1507253853834</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1507253853834</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="582738000" />
+    <option name="totallyTimeSpent" value="583115000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -490,7 +479,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.45437616" sideWeight="0.5186084" order="10" side_tool="true" content_ui="tabs" />
       <window_info id="Graph Database Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.15642458" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.43947858" sideWeight="0.4935275" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15642458" sideWeight="0.48139158" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.12662943" sideWeight="0.48139158" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24919094" sideWeight="0.4893617" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Graph Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32119742" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.20297952" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
@@ -588,7 +577,8 @@
     <MESSAGE value="#15-&#10;DONE : network =&gt; start to finish&#10;DOING: critical path&#10;TODO : standard deviation (critical path)&#10;THEN : probability&#10;THEN : correct project deletion,, login" />
     <MESSAGE value="#15-&#10;DONE : critical path / duration&#10;TODO: ES EF / LS LF&#10;THEN : standard deviation (critical path)&#10;THEN : probability&#10;THEN : correct project deletion,, login" />
     <MESSAGE value="#15-&#10;DONE : critical path (everything)&#10;TODO: ES EF / LS LF&#10;THEN : standard deviation (critical path)&#10;THEN : probability&#10;THEN : correct project deletion,, login" />
-    <option name="LAST_COMMIT_MESSAGE" value="#15-&#10;DONE : critical path (everything)&#10;TODO: ES EF / LS LF&#10;THEN : standard deviation (critical path)&#10;THEN : probability&#10;THEN : correct project deletion,, login" />
+    <MESSAGE value="#16 -&#10;DONE : critical path (everything)&#10;DONE : ES EF / LS LF&#10;DONE : Register, Login, Logout (bcrypt)&#10;TODO : standard deviation (critical path)&#10;TODO : probability&#10;THEN : correct project deletion" />
+    <option name="LAST_COMMIT_MESSAGE" value="#16 -&#10;DONE : critical path (everything)&#10;DONE : ES EF / LS LF&#10;DONE : Register, Login, Logout (bcrypt)&#10;TODO : standard deviation (critical path)&#10;TODO : probability&#10;THEN : correct project deletion" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -786,17 +776,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/routes/activities/delete.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="259">
-          <caret line="43" column="84" lean-forward="false" selection-start-line="43" selection-start-column="84" selection-end-line="43" selection-end-column="84" />
-          <folding>
-            <element signature="e#441#1336#0" expanded="false" />
-            <element signature="e#1476#2107#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/views/projects/project_list.pug">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="341">
@@ -901,6 +880,17 @@
           <caret line="6" column="0" lean-forward="true" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes/activities/delete.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="166">
+          <caret line="10" column="25" lean-forward="true" selection-start-line="10" selection-start-column="25" selection-end-line="10" selection-end-column="25" />
+          <folding>
+            <element signature="e#441#1348#0" expanded="false" />
+            <element signature="e#1494#2124#0" expanded="false" />
           </folding>
         </state>
       </provider>

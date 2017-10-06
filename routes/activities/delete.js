@@ -27,18 +27,18 @@ router.post('/:user/project/:project/activity/:activity/delete', function(reques
             , {id:activityID})
 
         .then( function() {
-            console.log('Activity '+activityID+' erased...');
-            response.redirect('/'+user+'/project/'+ project);
-        }
-        ,function (error) {
+                console.log('Activity '+activityID+' erased...');
+                response.redirect('/'+user+'/project/'+ project);
+            }
+            ,function (error) {
                 console.log('____ ERROR : ACTIVITY DELETION ____');
                 console.log(error);}
-            ); // then
+        ); // then
 
     // Todo : change the relationships
     // See : add activity --> updateNetwork(projectID)
 
-});//app.get DELETION
+});//router.post DELETE ONE
 
 /* TODO : DELETE ALL ACTIVITIES*/
 router.post('/:user/project/:project/activities/delete', function(request, response){
@@ -53,10 +53,9 @@ router.post('/:user/project/:project/activities/delete', function(request, respo
             console.log('Activities erased...');
             // >> Return to project edition
             response.redirect('/'+user+'/project/'+project);
-
         },function (error) {
             console.log(error);
         });
-}
+}); //router.post DELETE ALL
 
 module.exports = router;

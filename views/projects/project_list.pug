@@ -35,7 +35,6 @@
 
         tbody
             each project in projects
-                - var pID = project.identity.low;
                 tr
                     if project.properties.name === ''
                         td No project created
@@ -47,14 +46,7 @@
                             a.btn.btn-primary( role="button" href="/"+user+"/project/"+project.identity.low) Edit
                             |  |
                             // >> Delete the project
-                            a.btn.btn-primary.btn-danger(role="button" data-toggle="modal" data-target="#deleteProject" data-id=pID) Delete #{project.identity.low} + #{pID}
+                            a.btn.btn-primary.btn-danger(role="button" data-toggle="modal" data-target="#deleteProject"+project.identity.low) Delete
                             include delete.pug
 
-
-script
-    $(document).ready(function() {
-        $("a").click(function(event) {
-        alert("As you can see, the link no longer took you to jquery.com" );
-            event.preventDefault();
-        });
-    });
+                

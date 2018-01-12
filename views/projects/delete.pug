@@ -1,7 +1,6 @@
-#deleteProject.modal.fade(role='dialog')
+div(id="deleteProject"+project.identity.low class="modal fade" role='dialog')
     .modal-dialog
         .modal-content
-            p project ID is #{pID}
             form(action='/'+user+'/project/'+project.identity.low+'/delete' method="post")
                 .modal-header
                     button.close(type="button" data-dismiss="modal") x

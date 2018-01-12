@@ -1,7 +1,5 @@
 // --- routes/projects/delete.js ---  //
 
-/* ! NOT USED ! */
-
 // ** DEPENDENCIES ** //
 // > all the modules we need
 var router        = require('../../configs/modules').router;

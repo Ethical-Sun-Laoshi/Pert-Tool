@@ -59,8 +59,8 @@ var add_activities = require('./routes/activities/add');
 app.use(add_activities);
 
 // EDIT ONE ACTIVITY
-var edit = require('./routes/activities/edit');
-app.use(edit);
+var edit_activty = require('./routes/activities/edit');
+app.use(edit_activty);
 
 // DELETE ONE OR MORE ACTIVITIES
 var delete_activities = require('./routes/activities/delete');

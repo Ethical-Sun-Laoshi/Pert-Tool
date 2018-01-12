@@ -14,9 +14,9 @@ router.post('/:username/project/:projectID/new_activity', function(request, resp
         , currentProject    = request.params.projectID
         , description       = request.body.description
         , tag               = request.body.tag
-        , OT                = parseFloat(request.body.OT).toFixed(2)
-        , MLT               = parseFloat(request.body.MLT).toFixed(2)
-        , PT                = parseFloat(request.body.PT).toFixed(2)
+        , OT                = parseFloat(parseFloat(request.body.OT).toFixed(2))
+        , MLT               = parseFloat(parseFloat(request.body.MLT).toFixed(2))
+        , PT                = parseFloat(parseFloat(request.body.PT).toFixed(2))
         , ET                = parseFloat(((OT + (MLT * 4) + PT)/6)).toFixed(2)
         , variance          = Math.pow(((PT - OT)/6),2)
         , predecessors ;
@@ -222,22 +222,22 @@ function earliestTimes (projectID){
     neo4j_session.run(// ** Retrieve any activity ...
         'MATCH (p:Project)-[:CONTAINS]->(a:Activity)'
         // ** ...in the current project
-        +'WHERE ID(p)=toInteger({pID})'
+        +' WHERE ID(p)=toInteger({pID})'
         // ** Round the earliest start and finish of each activity to two decimals
-        +'SET a.ES = round(100 * a.ES) / 100'
-        +'SET a.EF = round(100 * a.EF) / 100'
-        +'WITH a'
+        +' SET a.ES = round(toInteger(100) * toFloat(a.ES)) / toInteger(100)'
+        +' SET a.EF = round(toInteger(100) * toFloat(a.EF)) / toInteger(100)'
+        +' WITH a'
         // ** Retrieve the activities with its direct predecessors (all activities)
-        +'MATCH (pred)-[:ENABLES]->(a)'
+        +' MATCH (pred)-[:ENABLES]->(a)'
         // ** Select an activity, and the maximum EF of its predecessors
-        +'WITH a, MAX(pred.EF) AS maxEF'
+        +' WITH a, MAX(pred.EF) AS maxEF'
         // ** The ES of an activity is the maximum EF of its predecessors
         // ** The EF of an activity is its ES plus its ET
-        +'SET a.ES = maxEF,a.EF = a.ES + a.ET'
+        +' SET a.ES = maxEF,a.EF = toFloat(a.ES) + toFloat(a.ET)'
         // ** Round EF to two decimals
-        +'SET a.EF = round(100 * a.EF) / 100'
+        +' SET a.EF = round(toInteger(100) * toFloat(a.EF)) / toInteger(100)'
         // ** Optional return to check the results on the console **
-        +' RETURN a ORDER BY ID(p)'
+        +' RETURN a ORDER BY ID(a)'
         ,{pID:projectID})
         .then(function(result){
             console.log('** earliest times ***');
@@ -280,20 +280,20 @@ function latestTimes(projectID) {
         .run(// ** Retrieve any activity ...
             'MATCH (p:Project)-[:CONTAINS]->(a:Activity)'
             // ** ...in the current project
-            +'WHERE ID(p)=toInteger({pID})'
+            +' WHERE ID(p)=toInteger({pID})'
             // ** Round the latest start and finish to two decimals
-            +'SET a.LS = round(100 * a.LS) / 100'
-            +'SET a.LF = round(100 * a.LF) / 100'
-            +'WITH a'
+            +' SET a.LS = round(toInteger(100) * toFloat(a.LS)) / toInteger(100)'
+            +' SET a.LF = round(toInteger(100) * toFloat(a.LF)) / toInteger(100)'
+            +' WITH a'
             // ** Retrieve the activities with its direct successors
-            +'MATCH (a)-[:ENABLES]->(b)'
+            +' MATCH (a)-[:ENABLES]->(b)'
             // ** Select any activity, and the minimum LS of its successors
-            +'WITH min(b.LS) as minLS,a'
+            +' WITH min(b.LS) as minLS,a'
             // ** The LF of an activity is the minimum LS of its successors
             // ** The LS of an activity is its EF minus its ET
-            +'SET a.LF = minLS,a.LS=a.LF-a.ET'
+            +' SET a.LF = minLS,a.LS=toFloat(a.LF)-toFloat(a.ET)'
             // ** Round LS to two decimals
-            +'SET a.LS = round(100 * a.LS) / 100'
+            +' SET a.LS = round(toInteger(100) * toFloat(a.LS)) / toInteger(100)'
             // ** Optional return to check the results on the console **
             +' RETURN a ORDER BY ID(a)'
             ,{pID:projectID})

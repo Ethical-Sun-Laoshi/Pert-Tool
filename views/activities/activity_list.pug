@@ -80,7 +80,28 @@ div.container-fluid
                 //th.col-md-2 Options
 
         tbody
-            - for(var i=0; i < activityCount; i++){
+            each activity in activities
+                tr
+                    td(scope='row')= activity.properties.tag
+                    td= activity.properties.description
+                    td= (parseFloat(activity.properties.ET)).toFixed(2)
+                    td= activity.properties.predecessors
+                    td= (parseFloat(activity.properties.ES)).toFixed(2)
+                    td= (parseFloat(activity.properties.EF)).toFixed(2)
+                    td= (parseFloat(activity.properties.LS)).toFixed(2)
+                    td= (parseFloat(activity.properties.LF)).toFixed(2)
+                    td= (parseFloat(activity.properties.slack)).toFixed(2)
+
+                    td
+                        // >> Edit the activity
+                        a.btn.btn-primary( role="button" data-toggle="modal" data-target="#editActivity") Edit
+                        include edit
+                        |  |
+                        // >> Delete the activity
+                        a.btn.btn-primary.btn-danger(role="button" data-toggle="modal" data-target="#deleteActivity") Delete
+                        include delete.pug
+
+            //- for(var i=0; i < activityCount; i++){
                 tr
                     td(scope='row')= activities[i].properties.tag
                     td= activities[i].properties.description
@@ -92,6 +113,14 @@ div.container-fluid
                     td= (parseFloat(activities[i].properties.LF)).toFixed(2)
                     td= (parseFloat(activities[i].properties.slack)).toFixed(2)
 
+                    td
+                        // >> Edit the activity
+                        a.btn.btn-primary( role="button" data-toggle="modal" data-target="#editActivity") Edit
+                        include edit.pug
+                        |  |
+                        // >> Delete the activity
+                        a.btn.btn-primary.btn-danger(role="button" data-toggle="modal" data-target="#deleteActivity") Delete
+                        include delete.pug
                     //td
                 // Todo : edit activity
                         a.btn.btn-primary( role="button" data-toggle="modal" data-target="#editActivity") Edit
@@ -100,7 +129,7 @@ div.container-fluid
                 // todo : delete activity
                         a.btn.btn-primary.btn-danger(role="button" data-toggle="modal" data-target="#deleteActivity") Delete
                         include delete.pug
-            - }
+            //- }
 
 script.
     $("select").multipleSelect({

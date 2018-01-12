@@ -35,6 +35,7 @@
 
         tbody
             each project in projects
+                - var pID = project.identity.low;
                 tr
                     if project.properties.name === ''
                         td No project created
@@ -42,12 +43,18 @@
                         td= project.properties.name
                         td= project.properties.activityCount
                         td
-                            a.btn.btn-primary( role="button" data-toggle="modal" data-target="#editActivity") Edit
-                            //include edit.pug
+                            // >> Go to the project page (Activity list)
+                            a.btn.btn-primary( role="button" href="/"+user+"/project/"+project.identity.low) Edit
                             |  |
-                            a.btn.btn-primary.btn-danger(role="button" data-toggle="modal" data-target="#deleteActivity") Delete
-                            //include delete.pug
+                            // >> Delete the project
+                            a.btn.btn-primary.btn-danger(role="button" data-toggle="modal" data-target="#deleteProject" data-id=pID) Delete #{project.identity.low} + #{pID}
+                            include delete.pug
 
-                            //a(type='button' href= ) Edit
-                                |  |
-                            //a(type='button' href='/'+ user +'/project/' + project.id +'/delete') Delete
+
+script
+    $(document).ready(function() {
+        $("a").click(function(event) {
+        alert("As you can see, the link no longer took you to jquery.com" );
+            event.preventDefault();
+        });
+    });

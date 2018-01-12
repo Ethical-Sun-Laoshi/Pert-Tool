@@ -29,7 +29,7 @@ router.post('/:username/create',function(request, response){
         ,{ currentUser: connectedUser, projectName: projectName })
 
         .then(function(result){
-            console.log('**** '+connectedUser+' created the project'+result.records[0].get('project'));
+            console.log('**** '+connectedUser+' created the "'+result.records[0].get('project')+'" project');
             // >> Redirect to the project edition page
             response.redirect('/'+ connectedUser + '/project/' + result.records[0].get('pID'));
 

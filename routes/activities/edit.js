@@ -10,7 +10,12 @@ var neo4j_session = require('../../configs/db').neo4j_session;
 
 // ** CONFIGURATION ** //
 // - Activity List : Activity Edition - /
-router.post('/edit', function(request, response){
+router.post(':username/project/:projectID/activity/:activityID/edit', function(request, response){
+
+    // Store URL params
+    var username = request.params.username
+        , projectID  = parseInt(request.params.projectID)
+        , activityID = parseInt(request.params.activityID);
 
     // >> If the body is empty ...
     if (request.body === undefined

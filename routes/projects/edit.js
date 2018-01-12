@@ -38,7 +38,6 @@ router.get('/:username/project/:projectID', function (request, response) {
                 , activities    = result.records[0].get('collect(a)')
                 , activityCount = result.records[0].get('p').properties.activityCount;
 
-
             neo4j_session
             // >> Give the critical path, the critical activities, and the project duration.
                 .run(// ** Retrieve the current project and its START endpoint

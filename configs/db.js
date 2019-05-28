@@ -1,11 +1,12 @@
+// --- configs/db.js ---  //
 
-var url = 'http://neo4j:16038943Brookes@localhost:7474';
-var neo4j = require('neo4js');
+// Neo4j database
+// ** CONFIGURATION ** //
+var  neo4j          = require('neo4j-driver').v1
+    , driver        = neo4j.driver('bolt://localhost', neo4j.auth.basic('neo4j', 'p@ssw0rd'))
+    , neo4j_session = driver.session();
 
-var graphDb = new neo4j.GraphDatabase(url);
+module.exports.neo4j_session = neo4j_session;
 
-var App = require('../server');
 
-app = new App(graphDb);
 
-module.exports = graphDb;

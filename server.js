@@ -1,95 +1,70 @@
-// Dependencies
-var express         = require ('express')
-    , session       = require('express-session')
+// ** DEPENDENCIES ** //
+var express         = require('express')
+    , app           = express()
     , bodyParser    = require ('body-parser')
-    , multer        = require  ('multer')
-    , upload        = multer()
-    ,   db   = require('seraph')('http://localhost:7474')
-    , model  = require('seraph-model')
-    , neo4j = require('neo4js')
-    , driver  = require('neo4j-driver').v1
-    , apoc   = require('apoc');
+    , morgan        = require('morgan')
+    , session       = require ('express-session')
+    , path          = require('path');
 
-    var app = express();
+// view engine setup
+app.set('views', 'views');
+app.set('view engine', 'pug');
 
-    module.exports = MyApp = (function () {
+// MIDDLEWARES
+app.use(express.static(path.join(__dirname,'/public')));
+app.use(express.static('controllers'));
+// Thanks to body parser, we can get information from POST and URL parameters
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
+// Thanks to morgan, the requests will be logged to the console
+app.use(morgan('dev'));
 
-    function MyApp(graphDb1) {
+/* Use of session */
+app.use(session({secret: 'mysecret', resave: false, saveUninitialized: true}));
 
-//Configuration
+//GET INDEX
+var index = require('./routes/index');
+app.use(index);
 
-        //var graphDb = require('./configs/db');
-        this.graphDb = graphDb1;
-        graphDb = this.graphDb;
+//LOGIN
+var login = require('./routes/users/login');
+app.use(login);
 
-//var index = require('./routes/index');
-//app.use('/', index);
-        // view engine setup
-        app.set('views', 'views');
-        app.set('view engine', 'pug');
-        // MIDDLEWARES
-        app.use(express.static('/public'));
-        app.use(express.static('controllers'));
-        app.use(bodyParser.urlencoded({extended: true}));
-        app.use(bodyParser.json());
-        app.use(session({
-            secret:'secret',
-            resave: false,
-            saveUninitialized : true,
-            cookie:{secure: false}
-        }));
-        var flash = require('./middlewares/flash');
-        app.use(flash);
+//REGISTER
+var register = require('./routes/users/register');
+app.use(register);
 
-//DATABASE
-        indexPromise = neo4j.index.NodeIndex(graphDb, "Index") ;
+//LOGGED IN
+var connected = require('./routes/connected');
+app.use(connected);
 
-        ///////indexPromise.then(function(index) {
-            app.get('/', function(request, response) {
-                console.log(request.session);
-                /////// return index.query("name:*").then(function(nodes) {
-                    return response.render('index', {nodes: nodes});
-                /////// });
-            });
-            return app.post('/', function(request, response) {
+//LOGOUT
+var logout = require('./routes/users/logout');
+app.use(logout);
 
-                if (request.body === undefined
-                    || request.body.description === ''
-                    || request.body.OT === ''
-                    || request.body.MLT === ''
-                    || request.body.PT === '')
-                {
-                    request.flash('error', "The form is empty");
+//CREATE PROJECT
+var new_project = require('./routes/projects/create');
+app.use(new_project);
 
-                }
-                else {
+//EDIT PROJECT
+var edit_project = require('./routes/projects/edit');
+app.use(edit_project);
 
-                    var description = request.body.description
-                        , OT = request.body.OT
-                        , MLT = reques.body.MLT
-                        , PT = request.body.PT
-                        , node = graphDb.node({
-                        description: description
-                        , OT: OT
-                        , MLT: MLT
-                        , PT: PT
-                    });
+//DELETE PROJECT
+var delete_project = require('./routes/projects/delete');
+app.use(delete_project);
 
+// ADD ACTIVITIES
+var add_activities = require('./routes/activities/add');
+app.use(add_activities);
 
-                    ///////return index.index(node, "description", description).then(function () {
-                        request.flash('success', "Activity added");
-                        console.log(request.body);
+// EDIT ONE ACTIVITY
+var edit_activty = require('./routes/activities/edit');
+app.use(edit_activty);
 
-                        return response.redirect("/");
-
-                   /////// });
-
-                } //else
-            }); //app.post
-        ///////}); //index.Promise
-    }//myApp
-    return MyApp;
-})
+// DELETE ONE OR MORE ACTIVITIES
+var delete_activities = require('./routes/activities/delete');
+app.use(delete_activities);
 
 
 module.exports = app;

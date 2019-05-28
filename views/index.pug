@@ -1,46 +1,36 @@
+//- >> Call and use layout file
 extends layout
 
 block content
-    .container
-        // HEADER AND ACTIVITY COUNT
-        .jumbotron.text-center
-            h1
-                | There are
-                span.label.label-info {{ Activities.length }}
-                |  activities in your project
-        div
-            h1 nodes in index:
-                ul
-                    each node in nodes
-                        li= JSON.stringify(node._data)
-            table
-                tr
-                    th
-                        label(for="description") Activity
-                    th
-                        label(for="OT") Optimistic
-                    th
-                        label(for="MLT") Most Likely
-                    th
-                        label(for="PT") Pessimistic
-                    th(id="ET") Expected
-                tr
-                    td {{description}}
-                    td {{OT}}
-                    td {{ML}}
-                    td {{PT}}
-                    td {{((OT + (ML * 4) + PT) / 6 )}}
-                tr
-                    form(name='Activities', action="/" method="post")
-                        td
-                            input(type='text', id='description', name="description" )
-                        td
-                            input(type='number', id='OT', name="OT" )
-                        td
-                            input(type='number', id='MLT', name="MLT")
-                        td
-                            input(type='number', id='PT', name="PT")
-                        td
-                            button(type="submit").ui.blue "Add"
-    if locals.flash && locals.flash.error
-        p=flash.error
+    case authenticated
+        when true
+            //-  >> Show the content is the user is authenticated
+            nav.navbar.navbar-inverse
+                .container-fluid
+                    .navbar-header
+                        a.navbar-brand(href='/'+user+'/dashboard') Planning Tool
+                    ul.nav.navbar-nav
+                        li.active
+                            a(href='/' + user + '/dashboard') Home
+                    ul.nav.navbar-nav.navbar-right
+                        li
+                            a(href='/logout')
+                                span.glyphicon.glyphicon-log-out
+                                |  Log out
+            .main.container
+                case projectEdition
+                    when true: include activities/activity_list
+                    when false: include projects/project_list
+
+        when false
+            //- >> Show the content when the user is not authenticated
+            nav.navbar.navbar-inverse
+                .container-fluid
+                    .navbar-header
+                        a.navbar-brand(href='/') Planning Tool
+                    ul.nav.navbar-nav
+                        li.active
+                            a(href='/') Home
+            .main.container
+                include user/welcome
+                include user/sign

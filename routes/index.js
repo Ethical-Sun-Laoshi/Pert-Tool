@@ -1,18 +1,13 @@
-var express = require('express')
-    //, app   = express()
-    , router  = express.Router();
-var apoc        = require ('apoc')
-    , controller  = require('../controllers/controller');
+// --- routes/index.js ---  //
 
-//check if the application is responding
-var isLogged = function (request, response, next){
-    console.log('LOGGED');
-    next()
-};
-router.use(isLogged);
+// ** DEPENDENCIES ** //
+// > all the modules we need
+var router        = require('../configs/modules').router;
 
-
-router.route("/otherfunction")
-    .get(controller.otherfunction);
+// ** CONFIGURATION ** //
+// - Home Page - /
+router.get('/', function(request, response) {
+        response.render('index', {authenticated : false })
+    });//router.get
 
 module.exports = router;

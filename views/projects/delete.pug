@@ -1,0 +1,15 @@
+div(id="deleteProject"+project.identity.low class="modal fade" role='dialog')
+    .modal-dialog
+        .modal-content
+            form(action='/'+user+'/project/'+project.identity.low+'/delete' method="post")
+                .modal-header
+                    button.close(type="button" data-dismiss="modal") x
+                    h4.modal-title Delete Project
+                .modal-body
+                    p This action will definitely delete the project named
+                    p=project.properties.name
+                    | and all associated relations. It cannot be recovered
+                    p Are you sure ?
+                .modal-footer
+                    button.btn.btn-secondary(type="button" data-dismiss="modal") Cancel
+                    button.btn.btn-danger(type="submit") Delete #{project.identity.low}

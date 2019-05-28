@@ -1,55 +1,58 @@
-// Listening the server
+// --- configs/port.js ---  //
 
+// - Port : listening the server - /
+
+// ** DEPENDENCES ** //
+// > all the modules we need
 var app     = require('../server')
     , debug = require('debug')('essai:server')
     , http  = require('http');
 
-    // get port from environment and store it in Express
-    var port = 1407;
-    app.set('port', port);
-    // HTTP server
-    var server = http.createServer(app);
-    //Listen on provided port, on all network interfaces.
-    server.listen(port);
-    server.on('error', onError);
-    server.on('listening', onListening);
-    console.log("App listening on port " + port);
-    console.log(onError);
-    console.log(onListening);
+// >> Get port from environment and store it in Express
+var port = 8080;
+// app.set('port', port);
+
+// >> HTTP server
+var server = http.createServer(app);
+// >> Listen on provided port, on all network interfaces.
+server.listen(port);
+server.on('error', onError);
+server.on('listening', onListening);
+console.log("App listening on port " + port);
 
 
 
-//Event listener for HTTP server "listening" event.
-    function onListening() {
-        var addr = server.address();
-        var bind = typeof addr === 'string'
-            ? 'pipe ' + addr
-            : 'port ' + addr.port;
-        debug('Listening on ' + bind);
-    };
+// >> Event listener for HTTP server "listening" event.
+function onListening() {
+    var addr = server.address();
+    var bind = typeof addr === 'string'
+        ? 'pipe ' + addr
+        : 'port ' + addr.port;
+    debug('Listening on ' + bind);
+};
 
 
-// Event listener for HTTP server "error" event.
-    function onError(error) {
-        if (error.syscall !== 'listen') {
-            throw error;
-        }
-
-        var bind = typeof port === 'string'
-            ? 'Pipe ' + port
-            : 'Port ' + port;
-
-        // handle specific listen errors with friendly messages
-        switch (error.code) {
-            case 'EACCES':
-                console.error(bind + ' requires elevated privileges');
-                process.exit(1);
-                break;
-            case 'EADDRINUSE':
-                console.error(bind + ' is already in use');
-                process.exit(1);
-                break;
-            default:
-                throw error;
-        }
+// >> Event listener for HTTP server "error" event.
+function onError(error) {
+    if (error.syscall !== 'listen') {
+        throw error;
     }
+
+    var bind = typeof port === 'string'
+        ? 'Pipe ' + port
+        : 'Port ' + port;
+
+    // >> Handle specific listen errors with friendly messages
+    switch (error.code) {
+        case 'EACCES':
+            console.error(bind + ' requires elevated privileges');
+            process.exit(1);
+            break;
+        case 'EADDRINUSE':
+            console.error(bind + ' is already in use');
+            process.exit(1);
+            break;
+        default:
+            throw error;
+    }
+}

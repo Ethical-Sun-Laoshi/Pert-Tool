@@ -1,0 +1,139 @@
+// HEADER AND ACTIVITY COUNT
+.jumbotron.text-center
+    h1 Welcome #{user}
+    h2 The current project is #{project}
+    - var duration = pDuration.toFixed(2)
+    case duration
+            when 0
+                - break
+            when 1: h2 with a duration of <span class="label label-success"> #{duration}</span> time unit.
+            default: h2 with a duration of <span class="label label-success"> #{duration}</span> time units.
+    case activityCount
+        when 0: h2 Your project is empty !
+            |  Add a new activity !
+        when 1: h2 There is
+            span.label.label-info 1
+            |  activity in your project
+        default: h2 There are
+            span.label.label-info=activityCount
+            |  activities in your project
+    // todo : delete all activities
+    // a.btn.btn-primary.btn-danger(href="/:user/project/:projectID/activities/delete" role="button") Delete all activities
+
+// BODY
+div.container-fluid
+    // >> Show the critical path
+    div.wrapper
+        div.content-main
+            p The critical path is composed of
+                each criticalActivity in criticalPath
+                    |  > #{criticalActivity}
+    // >> Form to add a new activity
+    table.col-md-12.table
+        thead
+            tr
+                th.col-md-2
+                    label(for="tag") ID (tag) *
+                th.col-md-2
+                    label(for="description") Activity
+                th.col-md-1
+                    label(for="OT") Optimistic Time *
+                th.col-md-1
+                    label(for="MLT") Most Likely Time *
+                th.col-md-1
+                    label(for="PT") Pessimistic Time *
+                th.col-md-2 Depends on
+                th
+        tbody
+            tr
+                form(name='Activities', id='Activities', action='/'+user+'/project/'+projectID+'/new_activity' method="post")
+                    td
+                        input(type='text', id='tag', name='tag', required=true)
+                    td
+                        input(type='text', id='description', name="description" )
+                    td
+                        input(type='number', step=0.01, min=0, id='OT', name="OT", required=true )
+                    td
+                        input(type='number', step=0.01, min=0, id='MLT', name="MLT", required=true)
+                    td
+                        input(type='number', step=0.01, min=0, id='PT', name="PT", required=true)
+                    td
+                        select(multiple='multiple', name="predecessors")
+                            each activity in activities
+                                option(type='checkbox', name='predecessors', value=activity.identity.low)=activity.properties.tag
+                    td
+                        button(type="submit").ui.blue Add
+
+    // >> Show all the activities of the project
+    table.col-md-12.table.table-striped.table-hover
+        thead
+            tr
+                th.col-md-1 #Tag
+                th Activity description
+                th Expected Time
+                th Depends on
+                th Earliest Start time
+                th Earliest Finish time
+                th Latest Start time
+                th Latest Finish time
+                th Slack Time
+                //th.col-md-2 Options
+
+        tbody
+            each activity in activities
+                tr
+                    td(scope='row')= activity.properties.tag
+                    td= activity.properties.description
+                    td= (parseFloat(activity.properties.ET)).toFixed(2)
+                    td= activity.properties.predecessors
+                    td= (parseFloat(activity.properties.ES)).toFixed(2)
+                    td= (parseFloat(activity.properties.EF)).toFixed(2)
+                    td= (parseFloat(activity.properties.LS)).toFixed(2)
+                    td= (parseFloat(activity.properties.LF)).toFixed(2)
+                    td= (parseFloat(activity.properties.slack)).toFixed(2)
+
+                    td
+                        // >> Edit the activity
+                        a.btn.btn-primary( role="button" data-toggle="modal" data-target="#editActivity") Edit
+                        include edit
+                        |  |
+                        // >> Delete the activity
+                        a.btn.btn-primary.btn-danger(role="button" data-toggle="modal" data-target="#deleteActivity") Delete
+                        include delete.pug
+
+            //- for(var i=0; i < activityCount; i++){
+                tr
+                    td(scope='row')= activities[i].properties.tag
+                    td= activities[i].properties.description
+                    td= (parseFloat(activities[i].properties.ET)).toFixed(2)
+                    td= activities[i].properties.predecessors
+                    td= (parseFloat(activities[i].properties.ES)).toFixed(2)
+                    td= (parseFloat(activities[i].properties.EF)).toFixed(2)
+                    td= (parseFloat(activities[i].properties.LS)).toFixed(2)
+                    td= (parseFloat(activities[i].properties.LF)).toFixed(2)
+                    td= (parseFloat(activities[i].properties.slack)).toFixed(2)
+
+                    td
+                        // >> Edit the activity
+                        a.btn.btn-primary( role="button" data-toggle="modal" data-target="#editActivity") Edit
+                        include edit.pug
+                        |  |
+                        // >> Delete the activity
+                        a.btn.btn-primary.btn-danger(role="button" data-toggle="modal" data-target="#deleteActivity") Delete
+                        include delete.pug
+                    //td
+                // Todo : edit activity
+                        a.btn.btn-primary( role="button" data-toggle="modal" data-target="#editActivity") Edit
+                        include edit.pug
+                        |  |
+                // todo : delete activity
+                        a.btn.btn-primary.btn-danger(role="button" data-toggle="modal" data-target="#deleteActivity") Delete
+                        include delete.pug
+            //- }
+
+script.
+    $("select").multipleSelect({
+        width: 100,
+        multiple: true,
+        multipleWidth: 55
+    });
